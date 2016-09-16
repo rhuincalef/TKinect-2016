@@ -20,7 +20,7 @@ define("PCIMG", "img.png");
 define("ENVIRONMENT", "development");
 
 // The development url
-define("DEVELURL", "http://localhost/webGLViewer/");
+define("DEVELURL", "http://localhost/tkinect2016/webGLViewer/");
 // define("DEVELURL", "http://localhost/data/pointcloud_1/webGLViewer/");
 
 // The production url

@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <title>SRV Pointclouds</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/css/bootstrap.min.css'; ?>" rel="stylesheet">
-    <link href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/css/style.css'; ?>" rel="stylesheet">
+    <link href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/css/bootstrap.min.css'; ?>" rel="stylesheet">
+    <link href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/css/style.css'; ?>" rel="stylesheet">
     
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/js/bootstrap.min.js';?>"></script>
+    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/bootstrap.min.js';?>"></script>
   </head> 
 
 <body>

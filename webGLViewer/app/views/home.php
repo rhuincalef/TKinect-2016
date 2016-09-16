@@ -86,7 +86,7 @@
                   <h4><?php echo $desc ?></h4>
                   <h4>Size: <?php echo $pcSize ?>MB.</h4>
                 </div>
-                <p><a class="btn btn-lg btn-primary" href="http://localhost/webGLViewer/app/views/viewer.php?c=<?php echo $folderName ?>">View</a></p>
+                <p><a class="btn btn-lg btn-primary" href="http://localhost/tkinect2016/webGLViewer/app/views/viewer.php?c=<?php echo $folderName ?>">View</a></p>
               </div>
               <img class="img-responsive" src="<?php echo $imgFile ?>">
             </div>

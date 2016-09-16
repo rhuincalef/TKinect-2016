@@ -26,7 +26,7 @@ $firephp->fb('pcFolder:'.$pcFolder);
 
 
 // $pcDataFolder = 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/data';
-$pcDataFolder = $_SERVER['DOCUMENT_ROOT'].'/webGLViewer/data';
+$pcDataFolder = $_SERVER['DOCUMENT_ROOT'].'/tkinect2016/webGLViewer/data';
 
 
 // $pcFile = $pcDataFolder . '/' . PCFILE;
@@ -81,7 +81,7 @@ if (ENVIRONMENT === 'production') {
 }
 else {
   // $pcUrl = DEVELURL . $pcFile;
-  $pcUrl = 'http://'.$_SERVER['HTTP_HOST'].'/'.'webGLViewer/'.DATAFOLDER.'/'.$pcFolder.'/'.PCFILE;
+  $pcUrl = 'http://'.$_SERVER['HTTP_HOST'].'/'.'/tkinect2016/webGLViewer/'.DATAFOLDER.'/'.$pcFolder.'/'.PCFILE;
 }
 
 ?>
@@ -92,7 +92,7 @@ else {
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>SRV Pointcloud Viewer</title>
-    <link href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/css/bootstrap.min.css';?>" rel="stylesheet">
+    <link href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/css/bootstrap.min.css';?>" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -104,10 +104,10 @@ else {
 
   <body>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/js/bootstrap.min.js';?>" ></script>
-    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/js/webgl-detector.js';?>"></script>
-    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/js/three.min.js';?>"></script>
-    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/webGLViewer/js/papaparse.min.js';?>"></script>
+    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/bootstrap.min.js';?>" ></script>
+    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/webgl-detector.js';?>"></script>
+    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/three.min.js';?>"></script>
+    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/papaparse.min.js';?>"></script>
     <script>
 
       // Check if iframe or not to change the button
