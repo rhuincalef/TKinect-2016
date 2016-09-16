@@ -1,0 +1,1 @@
+/home/rodrigo/TESINA-2016-KINECT/pruebasPCLWebGL/pcd_to_json_script/CMakeFiles/imprimir_datos_json.dir

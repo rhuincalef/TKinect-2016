@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rodrigo/TESINA-2016-KINECT/pruebasPCLWebGL/pcd_to_json_script/imprimir_datos_json.cpp
+iostream
+-
+stdio.h
+-
+stdlib.h
+-
+

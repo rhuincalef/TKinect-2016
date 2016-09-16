@@ -1,0 +1,44 @@
+-- Boost version: 1.54.0
+-- Found the following Boost libraries:
+--   system
+--   filesystem
+--   thread
+--   date_time
+--   iostreams
+--   serialization
+--   chrono
+** WARNING ** io features related to pcap will be disabled
+** WARNING ** io features related to png will be disabled
+-- looking for PCL_COMMON
+-- looking for PCL_KDTREE
+-- looking for PCL_OCTREE
+-- looking for PCL_SEARCH
+-- looking for PCL_SURFACE
+-- looking for PCL_SAMPLE_CONSENSUS
+-- looking for PCL_IO
+-- looking for PCL_FILTERS
+-- looking for PCL_FEATURES
+-- looking for PCL_GEOMETRY
+-- looking for PCL_KEYPOINTS
+-- looking for PCL_REGISTRATION
+-- looking for PCL_SEGMENTATION
+-- looking for PCL_RECOGNITION
+-- looking for PCL_VISUALIZATION
+-- looking for PCL_PEOPLE
+-- looking for PCL_OUTOFCORE
+-- looking for PCL_TRACKING
+-- looking for PCL_APPS
+Valor de variable PCL_INCLUDE_DIRS es --> 
+/usr/include/pcl-1.7;/usr/include/eigen3;/usr/include;/usr/include/ni;/usr/include/openni2;/usr/include/vtk-5.8
+
+Valor de variable PCL_LIBRARY_DIRS es --> 
+/usr/lib
+
+Valor de variable PROJECT_BINARY_DIR es --> 
+/home/rodrigo/TESINA-2016-KINECT/pruebasPCLWebGL/to_webgl-guille/build
+
+Directorios de archivos de cabecera incluidos...
+-----------------------------------------------
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/rodrigo/TESINA-2016-KINECT/pruebasPCLWebGL/to_webgl-guille

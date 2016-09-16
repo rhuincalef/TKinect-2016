@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/imprimir_datos_json.dir/imprimir_datos_json.cpp.o  -o build/imprimir_datos_json -rdynamic 

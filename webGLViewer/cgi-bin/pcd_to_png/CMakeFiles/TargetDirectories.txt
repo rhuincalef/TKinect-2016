@@ -1,0 +1,1 @@
+/home/rodrigo/TESINA-2016-KINECT/pruebasPCLWebGL/pcd_to_png/CMakeFiles/organizar_nube_pcd.dir
