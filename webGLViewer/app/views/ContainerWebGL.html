@@ -1,0 +1,20 @@
+ <div id="container" style="width:50%; height:50%; position:absolute; top: 10%; left:10%;">
+      <!-- Definicion del menu con el boton en Bootstrap -->
+      <!-- <div id="controls-browser" style="position:absolute; top:5px; left:5px; z-index:999999; display:none;">
+        <a class="btn btn-sm btn-default" href="../home">Go home</a>
+      </div> -->
+      <button id="boton-info"   data-toggle="collapse"   data-target="#datos-falla"   type="button" 
+            class="btn btn-primary boton-personalizado btn-lg ">Info
+           <span class="glyphicon glyphicon-signal" aria-hidden="true"></span></button>
+       <div id ="error-alert" style="display:none; ">Error al cargar el csv remoto</div>
+
+	<!-- Barra de progreso activada por .js -->
+	<div id="progressbar-container" class="progress progress-striped" style="position:absolute;left:10px !important; z-index:999999; width:50%; top:50%;">
+
+	<div id="progressbar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100" style="width:3%">3%</div>
+		</div>
+    </div>
+
+<!-- div donde se muestra la info de la falla. -->
+<div id = "datos-falla" style="width:300px;"></div>
+ 

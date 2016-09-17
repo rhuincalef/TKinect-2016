@@ -81,7 +81,7 @@ if (ENVIRONMENT === 'production') {
 }
 else {
   // $pcUrl = DEVELURL . $pcFile;
-  $pcUrl = 'http://'.$_SERVER['HTTP_HOST'].'/'.'/tkinect2016/webGLViewer/'.DATAFOLDER.'/'.$pcFolder.'/'.PCFILE;
+  $pcUrl = 'http://'.$_SERVER['HTTP_HOST'].'/'.'tkinect2016/webGLViewer/'.DATAFOLDER.'/'.$pcFolder.'/'.PCFILE;
 }
 
 ?>
@@ -97,9 +97,15 @@ else {
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <style>
-      body {margin:0; padding:0; background-color:black}
-      canvas {width:100%; height:100%;}
+      body {margin:0; padding:0; background-color:white}
+      canvas {width:100%; height:100%; background-color: black;}
     </style>
+
+    <!-- Includes de las hojas de estilos del boton y del canvas container -->
+    <link rel="stylesheet" type="text/css" href="css/canvas-container.css"></link>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+   
   </head>
 
   <body>
@@ -108,6 +114,11 @@ else {
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/webgl-detector.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/three.min.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/papaparse.min.js';?>"></script>
+
+    <!-- Script de carga de csv remotos -->
+    <script type="text/javascript" src="js/config-carga-csv.js"></script>
+
+
     <script>
 
       // Check if iframe or not to change the button
@@ -146,10 +157,13 @@ else {
 
       // When page loads
       $(function() {
-        
+        // Funciones de js config-carga-csv.js
+        configurar_info_falla();
+
         // Draw the progressbar on the middle
         var left = Math.round( (window.innerWidth - 400)/2 );
-        $("#progressbar-container").css("left",left + "px");
+        $("#progressbar-container").css("left","25%");
+        // $("#progressbar-container").css("left",left + "px");
 
         // Scene
         var scene = new THREE.Scene();
@@ -346,25 +360,18 @@ else {
 
       });
     </script>
+     <!-- Script que carga el html para el renderizado de webGL -->
+    <script type="text/javascript">
+      $("body").load("ContainerWebGL.html");
+      $.get("inicializacion_gui.php?datafolder="+<?php echo "'".DATAFOLDER."'";?>+"&pcFolder="+<?php echo "'".$pcFolder."'";?>,
+        function(data){
+          $("body").append(data);
+          debug("Se inserto el codigo javascript cargado remotamente.");
+      });
+      debug("Se paso el get de ajax.");
+    </script>
 
-    <div id="container" style="width:100%; height:100%; position:relative;">
-
-      <div id="controls-browser" style="position:absolute; top:5px; left:5px; z-index:999999; display:none;">
-        <a class="btn btn-sm btn-default" href="../home">Go home</a>
-        <!-- <p style="color:#aaa; margin-top:5px; font-size:12px;">
-          - 1, 2, 3 &amp; 4 change color<br />
-          - +/- change point size
-        </p> -->
-      </div>
-      <div id="controls-iframe" style="position:absolute; top:5px; left:5px; z-index:999999; display:none;">
-        <a style="font-size:11px;" href="http://srv.uib.es/pointclouds/view/<?php echo $pcFolder ?>" target="_blank">view on srv.uib.es</a>
-      </div>
-
-      <div id="progressbar-container" class="progress progress-striped" style="position:absolute; z-index:999999; width:400px; top:230px;">
-        <div id="progressbar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100" style="width:3%">3%</div>
-      </div>
-
-    </div>
+ 
 
   </body>
 </html>
