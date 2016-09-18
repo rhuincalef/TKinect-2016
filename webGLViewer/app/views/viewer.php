@@ -115,7 +115,11 @@ else {
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/three.min.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/papaparse.min.js';?>"></script>
 
-    <!-- Script de carga de csv remotos -->
+
+    <!--  Script donde se realizan las peticiones ajax a los cgi-bin -->
+    <script type="text/javascript" src="conversorJs.js"></script>
+
+    <!-- Script donde se definen las funciones de carga de csv remotos -->
     <script type="text/javascript" src="js/config-carga-csv.js"></script>
 
 
