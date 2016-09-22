@@ -47,10 +47,10 @@ void imprimir_footer(){
 * Main del script.
 * Ej. de invocacion: ./imprimir_datos_json nube.csv info.csv imagen.png
 */
-int main(int argc, char **argv)
-{
-	imprimir_cabecera_http();
-	imprimir_json(argv[1],argv[2],argv[3]);
-	imprimir_footer();
-	return 0;
-}
+// int main(int argc, char **argv)
+// {
+// 	imprimir_cabecera_http();
+// 	imprimir_json(argv[1],argv[2],argv[3]);
+// 	imprimir_footer();
+// 	return 0;
+// }

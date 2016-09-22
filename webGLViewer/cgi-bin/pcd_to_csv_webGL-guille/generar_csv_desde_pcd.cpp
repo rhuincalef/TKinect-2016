@@ -1,5 +1,4 @@
 #include <boost/lexical_cast.hpp>
-
 #include <pcl/point_types.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/common/centroid.h>
@@ -7,21 +6,15 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string>
-
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <regex>
 #include <sys/stat.h>
 
-/*  
-Se borraron las dependencias de ROS.
-*/
-// Directorio raiz en el servidor para el archivo .pcd especifico de una falla
-// (directorio donde se almacena "Multimedia").
-const std::string PATH_PCD_EN_SERVIDOR = "http://localhost/web/multimedia/";
-// Carpeta por defecto donde se agrupan los csv de datos.
-const std::string PATH_CSV_POR_DEFECTO = "csv_temp/";
+#include "lib/generar_csv_desde_pcd.h"
+
+const char* PC_FILE_DEFECTO = "pc.csv"
 
 class PointCloudToWebgl {
 
@@ -239,38 +232,12 @@ bool esta_path_especificado(std::string cad){
 }
 
 
-// Genera la metadata pedida desde el plugin para visualizar la infomracion.
-void generar_csv_metadata(std::string input_cloud){
-
-}
-
-// Genera la imagen a partir de pcd??
-void generar_imagen(std::string input_cloud){
-
-
-} 
-
-
-/**
- * Main entry point of the code.
- * Si se especifica un path para el csv de salida, se verifica la carpeta
- * y si no existe se la crea. 
- *
- *
- * Ej. de invocacion: ./pcd_to_csv prueba6.pcd 0 csv_temp/salida.csv
- *                    ./pcd_to_csv prueba6.pcd 0 salida.csv
- *
- */
-int main(int argc, char **argv)
-{
-  if (argc < 4)
-  {
-    std::cout << "Usage: " << argv[0] << " INPUT_PCD FORMAT OUTPUT_CSV" << std::endl;
-    std::cout << "  Example: " << argv[0] << " input_cloud.pcd 0 output_cloud.csv" << std::endl;
-    return 0;
-  }
+// TODO: CONTINUAR POR ACA!!! UTILIZAR pathCompleto para guardar los datos
+// de pc.csv en el directorio data/pointcloud_1
+// Metodo principal que realiza todas las comprobaciones
+void generarCsv(const char* pcdEntrada, const char* pathCompletoPcd){
   using namespace std;
-  string out_csv_string = argv[3];
+  string out_csv_string = csvSalida;
 
   if (!esta_path_especificado(out_csv_string))
   {
@@ -283,24 +250,57 @@ int main(int argc, char **argv)
   comprobar_directorio(out_csv_string);
 
   // Read inputs
-  std::string input_cloud(argv[1]);
-  std::string output_cloud(argv[3]);
-  int cloud_format = boost::lexical_cast<int>(argv[2]);
+  std::string input_cloud(pcdEntrada);
+  std::string output_cloud(csvSalida);
+  int cloud_format = boost::lexical_cast<int>(0);
 
   // Convert
-  PointCloudToWebgl converter(input_cloud, cloud_format, output_cloud);
+  PointCloudToWebgl converter(input_cloud, 0, PC_FILE_DEFECTO);
   converter.convert();
 
-
-  // Se genera el archivo csv que contiene los metadatos
-  // TODO:TERMINAR!
-  generar_csv_metadata(argv[1]);
-
-  // Se genera la imagen para la libreria de webGL
-  generar_imagen(argv[1]); 
-
-
-
-  return 0;
 }
+
+
+/**
+ * Main entry point of the code.
+ * Si se especifica un path para el csv de salida, se verifica la carpeta
+ * y si no existe se la crea. 
+ *
+ *
+ * Ej. de invocacion: ./pcd_to_csv prueba6.pcd 0 csv_temp/salida.csv
+ *                    ./pcd_to_csv prueba6.pcd 0 salida.csv
+ *
+ */
+// int main(int argc, char **argv)
+// {
+//   if (argc < 4)
+//   {
+//     std::cout << "Usage: " << argv[0] << " INPUT_PCD FORMAT OUTPUT_CSV" << std::endl;
+//     std::cout << "  Example: " << argv[0] << " input_cloud.pcd 0 output_cloud.csv" << std::endl;
+//     return 0;
+//   }
+//   using namespace std;
+//   string out_csv_string = argv[3];
+
+//   if (!esta_path_especificado(out_csv_string))
+//   {
+//     out_csv_string = PATH_CSV_POR_DEFECTO + out_csv_string;
+//     debug("Path del directorio por defecto: ");
+//     debug(out_csv_string);    
+//     debug("-----------------------------------");
+//   }
+
+//   comprobar_directorio(out_csv_string);
+
+//   // Read inputs
+//   std::string input_cloud(argv[1]);
+//   std::string output_cloud(argv[3]);
+//   int cloud_format = boost::lexical_cast<int>(argv[2]);
+
+//   // Convert
+//   PointCloudToWebgl converter(input_cloud, cloud_format, output_cloud);
+//   converter.convert();
+
+//   return 0;
+// }
 

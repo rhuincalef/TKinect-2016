@@ -84,6 +84,11 @@ else {
   $pcUrl = 'http://'.$_SERVER['HTTP_HOST'].'/'.'tkinect2016/webGLViewer/'.DATAFOLDER.'/'.$pcFolder.'/'.PCFILE;
 }
 
+
+  // Script donde se invoca a los CGI para generar los archivos necesarios de cgi
+  // Script donde se realizan las peticiones ajax a los cgi-bin
+  require_once("../helpers/conversorNubeKinect.php");
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -116,8 +121,7 @@ else {
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/papaparse.min.js';?>"></script>
 
 
-    <!--  Script donde se realizan las peticiones ajax a los cgi-bin -->
-    <script type="text/javascript" src="conversorJs.js"></script>
+    <!-- <script type="text/javascript" src="conversorJs.js"></script> -->
 
     <!-- Script donde se definen las funciones de carga de csv remotos -->
     <script type="text/javascript" src="js/config-carga-csv.js"></script>
@@ -374,8 +378,7 @@ else {
       });
       debug("Se paso el get de ajax.");
     </script>
-
- 
+  
 
   </body>
 </html>

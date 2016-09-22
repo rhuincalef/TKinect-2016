@@ -56,7 +56,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
 {
   system("pcl-pcl-1.7.2rc2.1/bin/pcl_pcd2png argv[1] argv[2]");
   return 0;
