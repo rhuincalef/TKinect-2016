@@ -1,10 +1,9 @@
 
 // Genera todos los archivos necesarios (csv,png,csv info) para renderizar 
-// la nube con WebGL.
-// Recibe la URL que contiene el directorio data/<NOMBRE-NUBE-PTOS> 
-// (ej:...data/pointcloud_1)
+// la nube con WebGL. Recibe nombreCarpetaNube que contiene el nombre de la
+// carpeta de la falla (mismo nombre de la falla). Por ej: pointcloud_1.
 // 
-// Se recibe un json que tiene un campo de info con las url de los datos que 
+// Al terminar la peticion ajax, se recibe un json que tiene un campo de info con las url de los datos que 
 // requiere el plugin y un campo de error que indica el tipo de error en 
 // la cadena de conversion de los archivos.
 // 		data = {"estado": 200 | 400, "datos": {"csv_info":...
@@ -12,7 +11,7 @@
 // 				"imagen": ...},
 // 				"error":"MENSAJE DE TIPO DE ERRROR"
 // }
-// 
+//
 
 function transformarNubePtos(nombreCarpetaNube){
 		$.ajax(
@@ -28,6 +27,8 @@ function transformarNubePtos(nombreCarpetaNube){
 							debug(json_estado.datos);
 							debug('------------------------------------------------');
 							// CONTINUAR POR ACA!!!
+							// TODO: Aca se debe llamar al metodo js con las rutas de los archivos
+							// csv, imagen y pcd con el json del servidor.
 				},
 				error: function(data,status,jqhxr){
 							debug('Error en la SOLICITUD CGI-BIN');

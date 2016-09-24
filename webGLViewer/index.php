@@ -12,9 +12,21 @@
 define("DATAFOLDER", "data");
 
 // The filenames of the pointclouds
-define("PCFILE", "pc.csv");
-define("PCINFO", "info.csv");
-define("PCIMG", "img.png");
+// NOTA IMPORTANTE: METODO DE INVOCACION es -->
+// localhost/index.php?idfalla=pointcloud_1
+// de esta forma se definen los nombres de los archivos que seran usados
+// para leer cada falla.
+// * Se supone que con este metodo las fallas se almacenan en una carpeta
+// con el mismo nombre de la falla y del archivo .pcd. 
+// Por ej. pointcloud_1/pointcloud_1.pcd 
+
+$nombrePc=$_REQUEST['idfalla'];."_pc.csv"
+$nombreInfo=$_REQUEST['idfalla']."_info.csv";
+$nombreImg=$_REQUEST['idfalla'].."_img.csv";
+
+define("PCFILE", $nombrePc);
+define("PCINFO", $nombreInfo);
+define("PCIMG", $nombreImg);
 
 // Can be development or production
 define("ENVIRONMENT", "development");

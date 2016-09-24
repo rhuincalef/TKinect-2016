@@ -140,9 +140,14 @@ string bool_cast(const bool b) {
     return ss.str();
 }
 
-bool es_archivo_csv(std::string pathFile){
+
+
+// Este metodo acepta el path donde debe determinar si existe un archivo 
+// de ese tipo.
+bool es_archivo_valido(std::string pathFile,std::string extension){
   bool result = false;
-  std::size_t found = pathFile.find(".csv");
+  std::size_t found = pathFile.find(extension);
+  // std::size_t found = pathFile.find(".csv");
   if (found != std::string::npos)
     result = true;
   debug("Comparado:");
@@ -154,109 +159,39 @@ bool es_archivo_csv(std::string pathFile){
 
 
 
-
-// Metodo que obtiene la url completa en el servidor
-// incluyendo la raiz de los .pcd, el .pcd particular
-// para una peticion y la carpeta temporal donde se agruparan
-// los cvs necesarios para la visualizacion con WebGL.
-const char* obtener_path_servidor(std::string url_de_pcd_de_falla){
-  // TODO: Descomentar con esto cuando se quiera probar el script
-  // CGI en el servidor.
-  // return PATH_PCD_EN_SERVIDOR+"/"+url_de_pcd_de_falla;
-
-  // TODO: Comentar esto para probar local.
-  char cwd[1024];
-  std::string current_dir;
-  if (getcwd(cwd, sizeof(cwd)) != NULL)
-    current_dir = cwd;
-  return (cwd+url_de_pcd_de_falla).c_str();
-}
-
-
-
-void crear_directorio(std::string url){
-  const char* p = obtener_path_servidor(url); 
-  debug("Directorio de trabajo actual -->");
-  debug(p);
-  if (mkdir(p, 0777)){
-    debug("Directorio existia!!");
-  }else{
-    debug("Directorio creado!");
-  }
-
-}
-
-// Verifica si un directorio existe
-int comprobar_directorio(std::string pathFile){
-    debug("En comprobar direcorios");
-    debug(pathFile);
-
-    vector<string> elems;
-    elems=split(pathFile,'/');
-    // elems=split("hola/1.csv",'/');
-    std::string url;
-    std::string tmp;
-    url.append("/");
-
-    debug("Elementos parseados del string --> ");
-    for (int i = 0; i < elems.size(); ++i)
-    {
-      if (!elems[i].empty() && !es_archivo_csv(elems[i]) )
-      {
-        tmp= elems[i] + "/";
-        url.append(tmp);  
-      }
-    }
-    debug("Ruta completa del archivo ");
-    debug(url);
-
-    crear_directorio(url);
-
-    debug("-------------------------------------");
-    debug("fin comprobar_directorio()");
-  }
-
-
-/* Esta funcion verifica si el archivo de salida de csv, contiene
- * una ruta por defecto.
- *
-*/
-bool esta_path_especificado(std::string cad){
-  bool res = false;
-  std::size_t esta_path_incluido= cad.find_first_of("/");
-  if (esta_path_incluido!=std::string::npos)
-  {
-    res = true;
-  }
-  return res;
-}
-
-
-// TODO: CONTINUAR POR ACA!!! UTILIZAR pathCompleto para guardar los datos
-// de pc.csv en el directorio data/pointcloud_1
-// Metodo principal que realiza todas las comprobaciones
-void generarCsv(const char* pcdEntrada, const char* pathCompletoPcd){
+// Metodo principal que recibe el nombre del archivo .pcd, la carpeta donde reside este,
+// y la carpeta donde se almacena el archivo de nube de puntos <IDFALLA>_pc.csv.
+// Retorna el nombre del archivo .csv generado con el prefijo (ej. <IDFALLA>_pc.csv).
+// 
+const char* generarCsv(const char* pcdEntrada, const char* carpetaRaizPcd, const char* carpetaCsv){
   using namespace std;
-  string out_csv_string = csvSalida;
 
-  if (!esta_path_especificado(out_csv_string))
-  {
-    out_csv_string = PATH_CSV_POR_DEFECTO + out_csv_string;
-    debug("Path del directorio por defecto: ");
-    debug(out_csv_string);    
-    debug("-----------------------------------");
-  }
+  // Se genera el nombre del archivo csv con la nube de puntos por defecto.
+  const char* nombreCsvSalida;
+  strcpy(nombreCsvSalida,pcdEntrada);
+  strcat(nombreCsvSalida,SUB_PC_CSV_DEFECTO);
 
-  comprobar_directorio(out_csv_string);
+  const char* pathCsvSalida;
+  strcpy(pathCsvSalida,carpetaCsv);
+  strcpy(pathCsvSalida,"/");
+  strcpy(pathCsvSalida,nombreCsvSalida);
+  
+
+  const char* pathPcdEntrada;
+  strcpy(pathPcdEntrada,carpetaRaizPcd);
+  strcpy(pathPcdEntrada,"/");
+  strcpy(pathPcdEntrada,pcdEntrada);
 
   // Read inputs
-  std::string input_cloud(pcdEntrada);
-  std::string output_cloud(csvSalida);
+  std::string input_cloud(pathPcdEntrada);
+  std::string output_cloud(pathCsvSalida);
   int cloud_format = boost::lexical_cast<int>(0);
 
   // Convert
-  PointCloudToWebgl converter(input_cloud, 0, PC_FILE_DEFECTO);
+  PointCloudToWebgl converter(input_cloud, FORMATO_NUBE, output_cloud);
   converter.convert();
+
+  return nombreCsvSalida;
 
 }
 
