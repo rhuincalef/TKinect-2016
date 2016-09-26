@@ -1,0 +1,2 @@
+/usr/bin/ar cr libpcd_to_csv.a  CMakeFiles/pcd_to_csv.dir/var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.cpp.o
+/usr/bin/ranlib libpcd_to_csv.a

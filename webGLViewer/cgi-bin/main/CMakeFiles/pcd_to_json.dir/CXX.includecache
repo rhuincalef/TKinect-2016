@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_json_script/imprimir_datos_json.cpp
+iostream
+-
+stdio.h
+-
+stdlib.h
+-
+lib/imprimir_datos_json.h
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_json_script/lib/imprimir_datos_json.h
+
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_json_script/lib/imprimir_datos_json.h
+

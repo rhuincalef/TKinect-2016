@@ -1,0 +1,3 @@
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/main/CMakeFiles/conversorCgi.cgi.dir
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/main/CMakeFiles/pcd_to_csv.dir
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/main/CMakeFiles/pcd_to_json.dir

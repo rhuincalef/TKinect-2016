@@ -8,6 +8,13 @@
  * Different variables to be configured
  */
 
+
+
+
+// EJEMPLO DE INVOCACION DEL SCRIPT
+// http://localhost/tkinect2016/webGLViewer/index.php?idfalla=pointcloud_1
+
+
 // The directory where your pointclouds are saved
 define("DATAFOLDER", "data");
 
@@ -19,6 +26,8 @@ define("DATAFOLDER", "data");
 // * Se supone que con este metodo las fallas se almacenan en una carpeta
 // con el mismo nombre de la falla y del archivo .pcd. 
 // Por ej. pointcloud_1/pointcloud_1.pcd 
+
+
 
 $nombrePc=$_REQUEST['idfalla'];."_pc.csv"
 $nombreInfo=$_REQUEST['idfalla']."_info.csv";

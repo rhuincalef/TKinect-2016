@@ -1,3 +1,10 @@
+# Instalacion de librerias vtk para Ubuntu -->
+# sudo apt-get -y install tcl-vtk python-vtk libvtk-java 
+
+#Ejecucion del script para transformar un .pcd en .csv
+#./generar_csv_desde_pcd prueba6.pcd 0 salida.csv
+
+
 cmake_minimum_required (VERSION 2.6)
 project (generar_csv_desde_pcd)
 
@@ -7,14 +14,6 @@ set (Tutorial_VERSION_MINOR 0)
 
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-
-
-# Instalacion de librerias vtk para Ubuntu -->
-# sudo apt-get -y install tcl-vtk python-vtk libvtk-java 
-
-#Ejecucion del script para transformar un .pcd en .csv
-#./generar_csv_desde_pcd prueba6.pcd 0 salida.csv
 
 
 #Se buscan las configuraciones para PCL en el proyecto.
@@ -35,21 +34,12 @@ message("")
 add_definitions(${PCL_DEFINITIONS})
 
 # Se configuran los directorios de los elementos compilados en cmake
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build)
 
 
 
 # add the binary tree to the search path for include files
 # so that we will find TutorialConfig.h
-#set (PROJECT_BINARY_DIR "${PROJECT_BINARY_DIR}/build" )
-#
-#message("Valor de variable PROJECT_BINARY_DIR es --> ")
-#message("${PROJECT_BINARY_DIR}")
-#message("")
-
 include_directories("${PROJECT_BINARY_DIR}")
 
 
@@ -59,7 +49,9 @@ set(PCL_DIR "/usr/share/pcl-1.7/")
 include_directories("${PCL_DIR}")
 
 message("Directorios de archivos de cabecera incluidos...")
-message("-----------------------------------------------")  
+message("-----------------------------------------------") 
+
+ 
 # add the executable
 add_executable(generar_csv_desde_pcd generar_csv_desde_pcd.cpp)
 target_link_libraries(generar_csv_desde_pcd ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})

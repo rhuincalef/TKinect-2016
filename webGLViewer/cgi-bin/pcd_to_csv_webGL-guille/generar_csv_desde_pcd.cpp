@@ -1,20 +1,4 @@
-#include <boost/lexical_cast.hpp>
-#include <pcl/point_types.h>
-#include <pcl/io/pcd_io.h>
-#include <pcl/common/centroid.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <regex>
-#include <sys/stat.h>
-
 #include "lib/generar_csv_desde_pcd.h"
-
-const char* PC_FILE_DEFECTO = "pc.csv"
 
 class PointCloudToWebgl {
 
@@ -116,27 +100,9 @@ void debug(std::string msg){
 }
 
 
-using namespace std;
-
-void split(const string &s, char delim, vector<string> &elems) {
-    stringstream ss;
-    ss.str(s);
-    string item;
-    while (getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-}
-
-// Funcion para la division de cadenas
-vector<string> split(const string &s, char delim) {
-    vector<string> elems;
-    split(s, delim, elems);
-    return elems;
-}
-
-string bool_cast(const bool b) {
-    ostringstream ss;
-    ss << boolalpha << b;
+std::string bool_cast(const bool b) {
+    std::ostringstream ss;
+    ss << std::boolalpha << b;
     return ss.str();
 }
 
@@ -163,21 +129,17 @@ bool es_archivo_valido(std::string pathFile,std::string extension){
 // y la carpeta donde se almacena el archivo de nube de puntos <IDFALLA>_pc.csv.
 // Retorna el nombre del archivo .csv generado con el prefijo (ej. <IDFALLA>_pc.csv).
 // 
-const char* generarCsv(const char* pcdEntrada, const char* carpetaRaizPcd, const char* carpetaCsv){
+char* generarCsv(char* pcdEntrada,char* pcFile, char* carpetaRaizPcd, char* carpetaCsv){
   using namespace std;
 
   // Se genera el nombre del archivo csv con la nube de puntos por defecto.
-  const char* nombreCsvSalida;
-  strcpy(nombreCsvSalida,pcdEntrada);
-  strcat(nombreCsvSalida,SUB_PC_CSV_DEFECTO);
-
-  const char* pathCsvSalida;
+  char* pathCsvSalida=(char *)malloc(MAX_CADENA);
   strcpy(pathCsvSalida,carpetaCsv);
   strcpy(pathCsvSalida,"/");
-  strcpy(pathCsvSalida,nombreCsvSalida);
+  strcpy(pathCsvSalida,pcFile);
   
 
-  const char* pathPcdEntrada;
+  char* pathPcdEntrada=(char *)malloc(MAX_CADENA);
   strcpy(pathPcdEntrada,carpetaRaizPcd);
   strcpy(pathPcdEntrada,"/");
   strcpy(pathPcdEntrada,pcdEntrada);
@@ -185,13 +147,13 @@ const char* generarCsv(const char* pcdEntrada, const char* carpetaRaizPcd, const
   // Read inputs
   std::string input_cloud(pathPcdEntrada);
   std::string output_cloud(pathCsvSalida);
-  int cloud_format = boost::lexical_cast<int>(0);
+  int cloud_format = boost::lexical_cast<int>(FORMATO_NUBE);
 
   // Convert
-  PointCloudToWebgl converter(input_cloud, FORMATO_NUBE, output_cloud);
+  PointCloudToWebgl converter(input_cloud,cloud_format, output_cloud);
   converter.convert();
 
-  return nombreCsvSalida;
+  return pcFile;
 
 }
 

@@ -1,0 +1,2 @@
+/usr/bin/ar cr libpcd_to_json.a  CMakeFiles/pcd_to_json.dir/var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_json_script/imprimir_datos_json.cpp.o
+/usr/bin/ranlib libpcd_to_json.a
