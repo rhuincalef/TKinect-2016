@@ -8,13 +8,28 @@
 #include "lib/conversorCgi.h"
 
 
+
+// Definicion de la excepcion
+class ExcepcionCGI: public std::exception
+{
+	private:
+		char* msg;
+
+	public:
+		ExcepcionCGI(char* msg1): msg=msg {}
+		const char* mostrar(msg){
+			return msg;
+		}
+ };
+
+
 // Verifica si la query string tiene solo los parametros necesarios
 bool estaCadenaLimpia(const char* data){
 	char* nombreCarpetaNube,pcFile,imgFile;
 	char* urlCarpetaNube;
 	bool result = true;
 	if(data == NULL || sscanf(data,"nombreCarpetaNube=%s&pcFile=%s&imgFile=%s",nombreCarpetaNube,pcFile,imgFile) != 3 )
-		result = false;
+		throw ExcepcionCGI("URL malformada.Numero incorrecto de parametros");
 	return result;
 }
 
@@ -33,17 +48,32 @@ void imprimirErrorJson(const char* msg){
 }
 
 
-// Escanea el directorio y obtiene el nombre del archivo de nube de puntos(.pcd).
+// Escanea el directorio, comprueba que exista un .pcd en el directorio 
+// y retorna el nombre del archivo de nube de puntos(.pcd).
+
 char* obtenerNombreArchivoPuntos(char* dir){
 	char* cad= (char *)malloc(MAX_CADENA);
 	DIR *dp;
     struct dirent *entry;
-    if((dp = opendir(dir)) == NULL) {
-        fprintf(stderr,"cannot open directory: %s\n", dir);
-    }else{
-	    chdir(dir);
-	    if ((entry = readdir(dp)) != NULL)
-			strcpy(cad,entry->d_name);
+    if((dp = opendir(dir)) == NULL)
+        throw ExcepcionCGI("Error: No se pudo abrir directorio: %s\n", dir);
+    
+	// Se verifica que exista un archivo .pcd
+    chdir(dir);
+    bool existePcdEnDir=false;
+    while(!existePcdEnDir){
+    	if ((entry = readdir(dp)) == NULL)
+    		throw ExcepcionCGI("Error: Falta archivo .pcd en servidor");
+    	// Si existe un archivo en el servidor se copia el nombre en un string,
+    	// y se comprueba si su extension es la de un archivo de nube de puntos
+    	// valido (.pcd)
+    	// NOTA: "cad" se limpia completa cada vez que se emplea strcpy() y se
+    	// sobreescribe con la nueva cadena.
+    	strcpy(cad,entry->d_name);
+    	std::string fn(cad);
+    	if(fn.substr(fn.find_last_of(".") + 1) == EXTENSION_NUBE_PUNTOS) {
+			existePcdEnDir = true;
+		}
     }
 	return cad;
 }
@@ -85,13 +115,12 @@ char* construirUrl(char* dir){
 int main(int argc, char const *argv[])
 {
 	const char* data;
-	char* carpetaCsvs=(char *)malloc(MAX_CADENA);
-	data = getenv("QUERY_STRING");
 	int result;
-	if (!estaCadenaLimpia(data)){
-		imprimirErrorJson("Query string incorrecta");
-		result = ERROR;
-	}else{
+	try{
+		char* carpetaCsvs=(char *)malloc(MAX_CADENA);
+		data = getenv("QUERY_STRING");
+	  	estaCadenaLimpia(data);
+		
 		// Se extrae la url de la carpeta de la nube puntos
 		char* nombreCarpetaNube=(char *)malloc(MAX_CADENA);
 		char* pcFile=(char *)malloc(MAX_CADENA);
@@ -158,7 +187,14 @@ int main(int argc, char const *argv[])
 
 		imprimir_json(urlPcCsv,urlImg);
 		result = EXITO;
-	}
+
+	}catch (ExcepcionCGI& e){
+    	imprimirErrorJson(e.mostrar());
+    	result = ERROR;
+	}catch (exception& e){
+		imprimirErrorJson("Error interno del servidor");
+		result= ERROR;
+	};
 	return result;
 }
 

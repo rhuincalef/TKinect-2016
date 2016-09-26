@@ -5,6 +5,9 @@
 #include <dirent.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <exception>
+
+
 #include "../../pcd_to_json_script/lib/imprimir_datos_json.h"
 #include "../../pcd_to_csv_webGL-guille/lib/generar_csv_desde_pcd.h"
 
@@ -23,6 +26,8 @@ const char* HOST= "localhost";
 const char* PATH_SERVER_ROOT_PCD = "tkinect2016/webGLViewer/data";
 // Carpeta por defecto donde se agrupan los csv de datos.
 const char* PATH_CSV_POR_DEFECTO = "csv_temp";
+
+const char* EXTENSION_NUBE_PUNTOS = "pcd";
 
 const int ERROR = 1;
 const int EXITO = 0;
