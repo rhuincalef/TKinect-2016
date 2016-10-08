@@ -1520,6 +1520,8 @@ boost/type_traits.hpp
 stddef.h
 -
 
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/lib/shared.h
+
 /var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.cpp
 lib/generar_csv_desde_pcd.h
 /var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/lib/generar_csv_desde_pcd.h
@@ -1551,4 +1553,6 @@ regex
 -
 sys/stat.h
 -
+../../lib/shared.h
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/lib/shared.h
 

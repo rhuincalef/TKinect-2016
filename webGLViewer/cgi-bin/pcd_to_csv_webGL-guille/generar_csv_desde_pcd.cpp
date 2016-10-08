@@ -147,10 +147,11 @@ char* generarCsv(char* pcdEntrada,char* pcFile, char* carpetaRaizPcd, char* carp
   // Read inputs
   std::string input_cloud(pathPcdEntrada);
   std::string output_cloud(pathCsvSalida);
-  int cloud_format = boost::lexical_cast<int>(FORMATO_NUBE);
+  // int cloud_format = boost::lexical_cast<int>(FORMATO_NUBE);
 
   // Convert
-  PointCloudToWebgl converter(input_cloud,cloud_format, output_cloud);
+  PointCloudToWebgl converter(input_cloud,FORMATO_NUBE, output_cloud);
+  // PointCloudToWebgl converter(input_cloud,cloud_format, output_cloud);
   converter.convert();
 
   return pcFile;

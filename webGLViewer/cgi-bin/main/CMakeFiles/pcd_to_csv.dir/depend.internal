@@ -245,5 +245,6 @@ CMakeFiles/pcd_to_csv.dir/var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_cs
  /usr/include/pcl-1.7/pcl/point_traits.h
  /usr/include/pcl-1.7/pcl/point_types.h
  /usr/include/pcl-1.7/pcl/register_point_struct.h
+ /var/www/html/tkinect2016/webGLViewer/cgi-bin/lib/shared.h
  /var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.cpp
  /var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/lib/generar_csv_desde_pcd.h

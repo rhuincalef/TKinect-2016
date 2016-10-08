@@ -13,7 +13,9 @@ int main(int argc, char const *argv[])
 	std::cout << "primera copia: "<< str1<< std::endl;
 	strcpy(str1,"hola mundo");
 	std::cout << "segunda copia: "<< str1<< std::endl;
-
+	const std::string PATH_PCD_EN_SERVIDOR = "http://localhost/web/multimedia/";
+	std::cout << "Fin1: "<< str1<< std::endl;
+	const char* FORMATO_NUBE = 0;
 
 	return 0;
 }

@@ -8,13 +8,18 @@
 #include <exception>
 
 
-#include "../../pcd_to_json_script/lib/imprimir_datos_json.h"
-#include "../../pcd_to_csv_webGL-guille/lib/generar_csv_desde_pcd.h"
+// #include "../../pcd_to_json_script/lib/imprimir_datos_json.h"
+// #include "../../pcd_to_csv_webGL-guille/lib/generar_csv_desde_pcd.h"
+
+
+
+#include "../../lib/shared.h"
 
 // Path por defecto para los archivos en multimedia.
 // TODO: Reemplazar esto por el directorio de multimedia cuando se integre todo
 // a la aplicacion web.
 const char* PATH_MULTIMEDIA = "/var/www/html/tkinect2016/webGLViewer/data";
+
 
 // Subfijos por defecto para los archivos de csv a generar y la imagen.
 // const std::string SUB_PC_CSV_DEFECTO = "_pc.csv"

@@ -30,6 +30,10 @@ message("-----------------------------------------------")
 
 
 
+#Se agrega info de debugging para el script cgi.
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -w")
+
+
 # Se incluyen la libreria de pcd_to_csv para ser compilada con el main
 include_directories("../pcd_to_csv_webGL-guille/lib")
 add_library(pcd_to_csv STATIC "../pcd_to_csv_webGL-guille/generar_csv_desde_pcd.cpp")

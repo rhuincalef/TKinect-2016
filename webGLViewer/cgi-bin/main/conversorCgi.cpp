@@ -16,11 +16,17 @@ class ExcepcionCGI: public std::exception
 		char* msg;
 
 	public:
-		ExcepcionCGI(char* msg1): msg=msg {}
-		const char* mostrar(msg){
-			return msg;
-		}
+		ExcepcionCGI(char* msg1);
+		char* mostrar();
  };
+
+ExcepcionCGI::ExcepcionCGI(char* msg1){
+	msg = msg1;
+}
+
+char* ExcepcionCGI::mostrar(){
+	return msg;
+}
 
 
 // Verifica si la query string tiene solo los parametros necesarios
@@ -33,7 +39,7 @@ bool estaCadenaLimpia(const char* data){
 	return result;
 }
 
-void imprimirErrorJson(const char* msg){
+void imprimirErrorJson(char* msg){
 // data = {"estado": 200 | 400, "datos": {"csv_info":...
 // 				"csv_nube": ... ,
 // 				"imagen": ...},
@@ -55,11 +61,15 @@ char* obtenerNombreArchivoPuntos(char* dir){
 	char* cad= (char *)malloc(MAX_CADENA);
 	DIR *dp;
     struct dirent *entry;
-    if((dp = opendir(dir)) == NULL)
-        throw ExcepcionCGI("Error: No se pudo abrir directorio: %s\n", dir);
-    
+    if((dp = opendir(dir)) == NULL){
+    	char* err= (char *)malloc(MAX_CADENA);
+    	strcpy(err,"Error: No se pudo abrir directorio: %s\n");
+    	strcat(err,dir);
+    	throw ExcepcionCGI(err);
+    }
+        
 	// Se verifica que exista un archivo .pcd
-    chdir(dir);
+  	chdir(dir);
     bool existePcdEnDir=false;
     while(!existePcdEnDir){
     	if ((entry = readdir(dp)) == NULL)
@@ -114,84 +124,85 @@ char* construirUrl(char* dir){
 // http://localhost/tkinect2016/webGLViewer/cgi-bin/main/build/conversorCgi?nombreCarpetaNube=pointcloud_1
 int main(int argc, char const *argv[])
 {
-	const char* data;
-	int result;
+	int result=EXITO;
 	try{
-		char* carpetaCsvs=(char *)malloc(MAX_CADENA);
-		data = getenv("QUERY_STRING");
-	  	estaCadenaLimpia(data);
+		char* data;
 		
-		// Se extrae la url de la carpeta de la nube puntos
-		char* nombreCarpetaNube=(char *)malloc(MAX_CADENA);
-		char* pcFile=(char *)malloc(MAX_CADENA);
-		char* imgFile=(char *)malloc(MAX_CADENA);
-		sscanf(data,"nombreCarpetaNube=%s&pcFile=%s&imgFile=%s",nombreCarpetaNube,pcFile,imgFile);
-
-
-		// Se arma la URL completa de la carpeta donde se almacenaran todos los archivos
-		// generados.
-		strcpy(carpetaCsvs,PATH_MULTIMEDIA);
-		strcat(carpetaCsvs,"/");
-		strcat(carpetaCsvs,nombreCarpetaNube);
-		strcat(carpetaCsvs,"/");
-		strcat(carpetaCsvs,PATH_CSV_POR_DEFECTO);
-
-		// Se crea el directorio de los csv si no existe o no, en caso contrario. 
-		crear_directorio(carpetaCsvs);
-
-		// Se obtiene el nombre del pcd en su carpeta y la url completa segun
-		// el nombre del archivo del tipo de falla.
-		char* carpetaRaizPcd=(char *)malloc(MAX_CADENA);
-		char* nombrePcd=(char *)malloc(MAX_CADENA);
-
-		strcpy(carpetaRaizPcd,PATH_MULTIMEDIA);	
-		strcpy(carpetaRaizPcd,"/");	
-		strcpy(carpetaRaizPcd,nombreCarpetaNube);
-		strcpy(nombrePcd, obtenerNombreArchivoPuntos(carpetaRaizPcd));
+		// char* carpetaCsvs=(char *)malloc(MAX_CADENA);
+		// data = getenv("QUERY_STRING");
+	 
+	 //  	estaCadenaLimpia(data);
 		
-		char* pcGenerado;
-		pcGenerado = generarCsv(nombrePcd,pcFile,carpetaRaizPcd,carpetaCsvs);
+		// // Se extrae la url de la carpeta de la nube puntos
+		// char* nombreCarpetaNube=(char *)malloc(MAX_CADENA);
+		// char* pcFile=(char *)malloc(MAX_CADENA);
+		// char* imgFile=(char *)malloc(MAX_CADENA);
+		// sscanf(data,"nombreCarpetaNube=%s&pcFile=%s&imgFile=%s",nombreCarpetaNube,pcFile,imgFile);
+
+
+		// // Se arma la URL completa de la carpeta donde se almacenaran todos los archivos
+		// // generados.
+		// strcpy(carpetaCsvs,PATH_MULTIMEDIA);
+		// strcat(carpetaCsvs,"/");
+		// strcat(carpetaCsvs,nombreCarpetaNube);
+		// strcat(carpetaCsvs,"/");
+		// strcat(carpetaCsvs,PATH_CSV_POR_DEFECTO);
+
+		// // Se crea el directorio de los csv si no existe o no, en caso contrario. 
+		// crear_directorio(carpetaCsvs);
+
+		// // Se obtiene el nombre del pcd en su carpeta y la url completa segun
+		// // el nombre del archivo del tipo de falla.
+		// char* carpetaRaizPcd=(char *)malloc(MAX_CADENA);
+		// char* nombrePcd=(char *)malloc(MAX_CADENA);
+
+		// strcpy(carpetaRaizPcd,PATH_MULTIMEDIA);	
+		// strcpy(carpetaRaizPcd,"/");	
+		// strcpy(carpetaRaizPcd,nombreCarpetaNube);
+		// strcpy(nombrePcd, obtenerNombreArchivoPuntos(carpetaRaizPcd));
 		
-		// Se arma la URL para cada csv generado en el servidor.
-		char* urlPcCsv,urlInfoCsv;
-		char *urlImg;
+		// char* pcGenerado;
+		// pcGenerado = generarCsv(nombrePcd,pcFile,carpetaRaizPcd,carpetaCsvs);
+		
+		// // Se arma la URL para cada csv generado en el servidor.
+		// char* urlPcCsv,urlInfoCsv;
+		// char *urlImg;
 
-		// Se genera la ruta local dentro de la carpeta del pcd.
-		// Por ej. pointcloud_1/pointcloud_1_pc.csv
-		char* tmp1=(char *)malloc(MAX_CADENA);
-		strcat(tmp1,PATH_CSV_POR_DEFECTO);
-		strcat(tmp1,"/");
-		strcat(tmp1,pcGenerado);
-		urlPcCsv = construirUrl(tmp1);
+		// // Se genera la ruta local dentro de la carpeta del pcd.
+		// // Por ej. pointcloud_1/pointcloud_1_pc.csv
+		// char* tmp1=(char *)malloc(MAX_CADENA);
+		// strcat(tmp1,PATH_CSV_POR_DEFECTO);
+		// strcat(tmp1,"/");
+		// strcat(tmp1,pcGenerado);
+		// urlPcCsv = construirUrl(tmp1);
 
 
-		// TODO: Llamar a php generar_csv.php que genera el csv con la info de la BD!!
-		// 
+		// // TODO: Llamar a php generar_csv.php que genera el csv con la info de la BD!!
+		// // 
 
-		// const char* infoGenerado,tmp2;
-		// infoGenerado = generar_csv_info(nombreCarpetaNube);
-		// strcpy(tmp2,PATH_CSV_POR_DEFECTO);
-		// strcat(tmp2,"/");
-		// strcat(tmp2,infoGenerado);
-		// urlInfoCsv = construirUrl(tmp2);
+		// // const char* infoGenerado,tmp2;
+		// // infoGenerado = generar_csv_info(nombreCarpetaNube);
+		// // strcpy(tmp2,PATH_CSV_POR_DEFECTO);
+		// // strcat(tmp2,"/");
+		// // strcat(tmp2,infoGenerado);
+		// // urlInfoCsv = construirUrl(tmp2);
 
-		// TODO: Ver si llamar al script para generar el .png a partir de la nube de puntos
+		// // TODO: Ver si llamar al script para generar el .png a partir de la nube de puntos
 
-		char* imgGenerada=(char *)malloc(MAX_CADENA);
-		imgGenerada = generar_imagen(nombreCarpetaNube,imgFile);
-		char* tmp3 = (char *)malloc(MAX_CADENA);
-		strcpy(tmp3,PATH_CSV_POR_DEFECTO);
-		strcat(tmp3,"/");
-		strcat(tmp3, imgGenerada);
-		urlImg = construirUrl(tmp3);
+		// char* imgGenerada=(char *)malloc(MAX_CADENA);
+		// imgGenerada = generar_imagen(nombreCarpetaNube,imgFile);
+		// char* tmp3 = (char *)malloc(MAX_CADENA);
+		// strcpy(tmp3,PATH_CSV_POR_DEFECTO);
+		// strcat(tmp3,"/");
+		// strcat(tmp3, imgGenerada);
+		// urlImg = construirUrl(tmp3);
 
-		imprimir_json(urlPcCsv,urlImg);
-		result = EXITO;
+		// imprimir_json(urlPcCsv,urlImg);
 
 	}catch (ExcepcionCGI& e){
     	imprimirErrorJson(e.mostrar());
     	result = ERROR;
-	}catch (exception& e){
+	}catch (std::exception& e){
 		imprimirErrorJson("Error interno del servidor");
 		result= ERROR;
 	};
