@@ -26,6 +26,6 @@
 
 std::string bool_cast(const bool b);
 bool es_archivo_valido(std::string pathFile,std::string extension);
-char* generarCsv(char* pcdEntrada,char* pcFile, char* carpetaRaizPcd, char* carpetaCsv);
+// char* generarCsv(char* pcdEntrada,char* pcFile, char* carpetaRaizPcd, char* carpetaCsv);
 
 

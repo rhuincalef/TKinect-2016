@@ -29,6 +29,10 @@ sys/stat.h
 -
 exception
 -
+fcntl.h
+-
+errno.h
+-
 ../../lib/shared.h
 /var/www/html/tkinect2016/webGLViewer/cgi-bin/lib/shared.h
 
