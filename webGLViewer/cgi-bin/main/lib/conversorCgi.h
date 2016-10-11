@@ -6,17 +6,13 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <exception>
-
-
 #include <fcntl.h>
 #include <errno.h>
-
+#include <signal.h>
 
 
 // #include "../../pcd_to_json_script/lib/imprimir_datos_json.h"
 // #include "../../pcd_to_csv_webGL-guille/lib/generar_csv_desde_pcd.h"
-
-
 
 #include "../../lib/shared.h"
 
@@ -47,17 +43,17 @@ const char* PATH_IMG_DEFAULT = "/var/www/html/tkinect2016/webGLViewer/cgi-bin/de
 int CANTIDAD_PARAM_QUERY_STRING = 1;
 const int ERROR = 1;
 const int EXITO = 0;
-
 const int MAX_BUFFER = 100;
 
 // Codigos de error para las excepciones.
 const int COD_ERRORES_GENERALES = 400;
 const int COD_ERROR_PCD_INEXISTENTE = 401;
-
+const int COD_ERROR_IMAGEN_INEXISTENTE = 402;
 
 
 // Prototipos de las funciones 
-void copiar_archivo(int fuente,int destino);
+// void copiar_archivo(int fuente,int destino);
+void copiar_archivo(FILE* fuente,FILE* destino);
 bool estaCadenaLimpia(const char* data);
 void imprimirErrorJson(char* msg,int codigo);
 char* obtenerNombreArchivoPuntos(char* dir);
@@ -65,4 +61,4 @@ char* construirUrl(char* dir);
 // const char* generar_csv_info(const char* nombreCarpetaNube);
 char* generar_imagen(char* nombreCarpetaNube);
 void crear_directorio(const char* url);
-void append_string(char* destino,char* fuente,int tamanio_buffer);
+

@@ -119,24 +119,17 @@ void crear_directorio(const char* url){
 
 
 
-void copiar_archivo(int fuente,int destino){
+void copiar_archivo(FILE* fuente,FILE* destino){
 	char buffer[MAX_BUFFER];
 	int cantBytes;
+
 	// Si no ocurrio un error al leer
-	while ( (cantBytes = read(fuente,buffer,MAX_BUFFER-1)) != -1) {
-		// Se cierra el arreglo con el caracter terminador.
-		buffer[cantBytes] = '\0';
-		if (write(destino,buffer,MAX_BUFFER-1) == -1){
-			close(fuente);
-			close(destino);
-			throw ExcepcionCGI("Error: Escritura de imagen en el servidor",COD_ERRORES_GENERALES);
-		}
+	while( (cantBytes = fread(buffer,MAX_BUFFER,1,fuente) )>0){
+		fwrite(buffer,MAX_BUFFER,1,destino);
 	}
-	if (cantBytes == -1 ){
-		close(fuente);
-		close(destino);
-		throw ExcepcionCGI("Error: Lectura de imagen en el servidor",COD_ERRORES_GENERALES);
-	}
+	fclose(fuente);
+	fclose(destino);
+
 }
 
 
@@ -149,31 +142,44 @@ void copiar_archivo(int fuente,int destino){
 char* generar_imagen(char* nombreCarpetaNube){
 	char* imgDef = (char*)malloc(MAX_CADENA);
 	strcpy(imgDef,PATH_IMG_DEFAULT);
-	strcpy(imgDef,"/");
-	strcat(imgDef,NOMBRE_IMG_DEFAULT);
-	int fuente = open(imgDef, O_RDONLY, S_IRUSR | S_IWUSR);
+	append_string(imgDef,"/");
+	append_string(imgDef,(char*) NOMBRE_IMG_DEFAULT);
+
+	char buffer[MAX_CADENA];
+	FILE* fuente;
+	FILE* destino;
+	fuente = fopen(imgDef, "rb");
 	/* Si se puede escribir, se copia a destino. Si existe no se hace nada,
 		ya que retorna otro tipo de error (Error EEXIST) y no es necesario
 		sobreescribirla. */
-	if(fuente == 0){
+	if(fuente !=NULL){
 		char* imgNueva = (char*)malloc(MAX_CADENA);
 		strcpy(imgNueva,PATH_MULTIMEDIA);
-		strcpy(imgNueva,"/");
-		strcat(imgNueva,nombreCarpetaNube);
-		strcpy(imgNueva,"/");
-		strcat(imgNueva,NOMBRE_IMG_DEFAULT);
-		int destino = open(imgNueva, O_RDWR | O_EXCL, S_IRUSR | S_IWUSR);
+		append_string(imgNueva,"/");
+		append_string(imgNueva,nombreCarpetaNube);
+		append_string(imgNueva,"/");
+		append_string(imgNueva,PATH_CSV_POR_DEFECTO);
+		append_string(imgNueva,"/");
+		append_string(imgNueva,(char*) NOMBRE_IMG_DEFAULT);
+		std::cout << std::endl;
+		std::cout << "Archivo fuente abierto! Imagen nueva: "<< imgNueva << std::endl;
+		std::cout << std::endl;
+		destino = fopen(imgNueva,"wb");
+		if (destino == NULL)
+			throw ExcepcionCGI("Error al escribir la imagen",COD_ERROR_IMAGEN_INEXISTENTE);	
+		
 		copiar_archivo(fuente,destino);
-	}else if (fuente == EACCES) {
-		close(fuente);
-		throw ExcepcionCGI("Error: Permisos en el servidor",COD_ERRORES_GENERALES);
+	}else{
+		throw ExcepcionCGI("Error al leer la imagen por default",COD_ERROR_IMAGEN_INEXISTENTE);
 	}
 	return (char*)NOMBRE_IMG_DEFAULT;
 }
 
 
 
-// Agrega la URL en el servidor de un archivo y retorna el string de la misma
+// Agrega la URL raiz de los pcd 
+// (carpeta general donde se guardan las subcarpetas para la falla)
+// en el servidor al path local de una archivo(.csv o .png) y retorna la url completa. 
 char* construirUrl(char* dir){
 	char* tmp=(char *)malloc(MAX_CADENA);
 	strcpy(tmp,PROTO);
@@ -186,7 +192,17 @@ char* construirUrl(char* dir){
 }
 
 
-void append_string(char* destino,char* fuente,int tamanio_buffer_destino){
+void append_string(char* destino,char* fuente){
+	// std::cout << "Long. destino: " << strlen(destino) << std::endl;
+	// std::cout << "Long. fuente: " << strlen(fuente) << std::endl;
+	// std::cout << std::endl;
+	char arrTmp[MAX_CADENA];
+	strcpy(arrTmp,destino);
+	int tamanio_buffer_destino = sizeof arrTmp;
+
+	// std::cout << "tamanio_buffer_destino: " << tamanio_buffer_destino << std::endl;
+	// std::cout << std::endl;
+	
 	if ( (strlen(destino)-1) + strlen(fuente) > tamanio_buffer_destino){
 		throw ExcepcionCGI("Tamanio de URL insuficiente",COD_ERRORES_GENERALES);
 		return;
@@ -203,109 +219,88 @@ void append_string(char* destino,char* fuente,int tamanio_buffer_destino){
 // http://localhost/tkinect2016/webGLViewer/cgi-bin/main/build/conversorCgi?nombreCarpetaNube=pointcloud_1
 int main(int argc, char const *argv[])
 {
-	std::cout << "Salida!!!!!!!" << std::endl; 
 	int result=EXITO;
 	try{
 		char* data;
-		std::cout << "1" << std::endl;
 		data = getenv("QUERY_STRING");
 		estaCadenaLimpia(data);
-		
 		// Se extrae la url de la carpeta de la nube puntos
 		char carpetaCsvs[MAX_CADENA]="";
 		char nombreCarpetaNube[MAX_CADENA]="";
-		char pcFile[MAX_CADENA]="";
+		// char pcFile[MAX_CADENA]="";
 		char imgFile[MAX_CADENA]="";
 
-		// BACKUP
-		// char carpetaCsvs[MAX_CADENA];
-		// char nombreCarpetaNube[MAX_CADENA];
-		// char pcFile[MAX_CADENA];
-		// char imgFile[MAX_CADENA];
 		sscanf(data,"nombreCarpetaNube=%s",nombreCarpetaNube);
-				
 		 // Se arma la URL completa de la carpeta donde se almacenaran todos los archivos
 		 // generados.
 		strcpy(carpetaCsvs,PATH_MULTIMEDIA);
-		std::cout << "2 nombreCarpetaNube: "<< nombreCarpetaNube << std::endl;
-		std::cout << "2 carpetaCsvs: "<< carpetaCsvs << std::endl;
-		std::cout << std::endl;
-
-		// strcat(carpetaCsvs,"/");
-		append_string(carpetaCsvs,"/",sizeof carpetaCsvs);
-		std::cout << "3 nombreCarpetaNube: "<< nombreCarpetaNube << std::endl;
-		std::cout << "3 carpetaCsvs: "<< carpetaCsvs << std::endl;
-		std::cout << std::endl;
-		
-		// strcat(carpetaCsvs,nombreCarpetaNube);
-		append_string(carpetaCsvs,nombreCarpetaNube,sizeof carpetaCsvs);
-		std::cout << "4 nombreCarpetaNube: "<< nombreCarpetaNube << std::endl;
-		std::cout << "4 carpetaCsvs: "<< carpetaCsvs << std::endl;
-		std::cout << "Tamanio: " << strlen(carpetaCsvs) << std::endl;
-		// std::cout << std::endl;
-
-		// strcat(carpetaCsvs,"/");
-		append_string(carpetaCsvs,"/",sizeof carpetaCsvs);
-		std::cout << "5 carpetaCsvs: "<< carpetaCsvs << std::endl;
-		std::cout << "5 nombreCarpetaNube: "<< nombreCarpetaNube << std::endl;
-		std::cout << std::endl;
-		// strcat(carpetaCsvs,PATH_CSV_POR_DEFECTO);
-		append_string(carpetaCsvs,PATH_CSV_POR_DEFECTO,sizeof carpetaCsvs);
+		append_string(carpetaCsvs,"/");
+		append_string(carpetaCsvs,nombreCarpetaNube);
+		append_string(carpetaCsvs,"/");
+		append_string(carpetaCsvs,PATH_CSV_POR_DEFECTO);
 		std::cout << "6 carpetaCsvs: "<< carpetaCsvs << std::endl;
 		std::cout << "6 nombreCarpetaNube: "<< nombreCarpetaNube << std::endl;
 		std::cout << std::endl;
 
 		// Se crea el directorio de los csv si no existe. 
-		// crear_directorio(carpetaCsvs);
+		crear_directorio(carpetaCsvs);
 
+		// Se obtiene el nombre del pcd en su carpeta y la url completa segun
+		// el nombre del archivo del tipo de falla.
+		char* carpetaRaizPcd=(char *)malloc(MAX_CADENA);
+		char* nombrePcd=(char *)malloc(MAX_CADENA);
 
-		// // Se obtiene el nombre del pcd en su carpeta y la url completa segun
-		// // el nombre del archivo del tipo de falla.
-		// char* carpetaRaizPcd=(char *)malloc(MAX_CADENA);
-		// char* nombrePcd=(char *)malloc(MAX_CADENA);
-
-		// strcpy(carpetaRaizPcd,PATH_MULTIMEDIA);	
-		// strcat(carpetaRaizPcd,"/");	
-		// strcat(carpetaRaizPcd,nombreCarpetaNube);
-
-		// strcpy(nombrePcd, obtenerNombreArchivoPuntos(carpetaRaizPcd));
+		strcpy(carpetaRaizPcd,PATH_MULTIMEDIA);	
+		append_string(carpetaRaizPcd,"/");
+		append_string(carpetaRaizPcd,nombreCarpetaNube);
+		std::cout << "2 carpetaRaizPcd: "<< carpetaRaizPcd << std::endl;
+		std::cout << std::endl;
 		
-		// char* pcGenerado;
-		// pcGenerado = generarCsv(nombrePcd,pcFile,carpetaRaizPcd,carpetaCsvs);
-		
-		// // Se arma la URL para cada csv generado en el servidor.
-		// char* urlPcCsv,urlInfoCsv;
-		// char *urlImg;
 
-		// // Se genera la ruta local dentro de la carpeta del pcd.
-		// // Por ej. pointcloud_1/pointcloud_1_pc.csv
-		// char* tmp1=(char *)malloc(MAX_CADENA);
-		// strcpy(tmp1,PATH_CSV_POR_DEFECTO);
-		// strcat(tmp1,"/");
-		// strcat(tmp1,pcGenerado);
-		// urlPcCsv = construirUrl(tmp1);
+		strcpy(nombrePcd, obtenerNombreArchivoPuntos(carpetaRaizPcd));
+		char* pcGenerado=(char*) malloc(MAX_CADENA);
+		strcpy(pcGenerado,generarCsv(nombrePcd,nombreCarpetaNube,carpetaRaizPcd,carpetaCsvs));		
+	
+		std::cout << "CSV generado: "<< pcGenerado << std::endl;
+		// Se arma la URL para cada csv generado en el servidor.
+		char* urlPcCsv;
+		char* urlInfoCsv;
+		char* urlImg;
 
-		// // Se copia una imagen por defecto para el thumbnail que se muestra para
-		// // la imagen, y se genera la URL de la misma. 
-		// char* imgGenerada=(char *)malloc(MAX_CADENA);
-		// imgGenerada = generar_imagen(nombreCarpetaNube);
-		// char* tmp3 = (char *)malloc(MAX_CADENA);
-		// strcpy(tmp3,PATH_CSV_POR_DEFECTO);
-		// strcat(tmp3,"/");
-		// strcat(tmp3, imgGenerada);
-		// urlImg = construirUrl(tmp3);
+		// Se genera la ruta local dentro de la carpeta del pcd.
+		// Por ej. pointcloud_1/pointcloud_1_pc.csv
+		char* tmp1=(char *)malloc(MAX_CADENA);
+		strcpy(tmp1,nombreCarpetaNube);
+		append_string(tmp1,"/");
+		append_string(tmp1,PATH_CSV_POR_DEFECTO);
+		append_string(tmp1,"/");
+		append_string(tmp1,pcGenerado);
+		urlPcCsv = construirUrl(tmp1);
 
-		// imprimir_json(urlPcCsv,urlImg);
+
+		// Se copia una imagen por defecto para el thumbnail que se muestra para
+		// la imagen, y se genera la URL de la misma. 
+		char* imgGenerada=(char *)malloc(MAX_CADENA);
+		imgGenerada = generar_imagen(nombreCarpetaNube);
+		char* tmp3 = (char *)malloc(MAX_CADENA);
+		strcpy(tmp3,nombreCarpetaNube);
+		append_string(tmp3,"/");
+		append_string(tmp3,PATH_CSV_POR_DEFECTO);
+		append_string(tmp3,"/");
+		append_string(tmp3, imgGenerada);
+		urlImg = construirUrl(tmp3);
+
+
+		imprimir_json(urlPcCsv,urlImg);
 
 	}catch (ExcepcionCGI& e){
 		imprimirErrorJson(e.mostrar(),e.codigo_error());
 		result = ERROR;
 	}catch (std::exception& e){
 		imprimirErrorJson("Error interno del servidor",COD_ERRORES_GENERALES);
-		result= ERROR;
+		result = ERROR;
 	}
 	return result;
-	
 }
 
 

@@ -129,20 +129,29 @@ bool es_archivo_valido(std::string pathFile,std::string extension){
 // y la carpeta donde se almacena el archivo de nube de puntos <IDFALLA>_pc.csv.
 // Retorna el nombre del archivo .csv generado con el prefijo (ej. <IDFALLA>_pc.csv).
 // 
-char* generarCsv(char* pcdEntrada,char* pcFile, char* carpetaRaizPcd, char* carpetaCsv){
+char* generarCsv(char* pcdEntrada,char* nombreCarpetaNube, char* carpetaRaizPcd,
+                    char* carpetaCsv){
   using namespace std;
 
-  // Se genera el nombre del archivo csv con la nube de puntos por defecto.
+  // Se arma el nombre del csv de salida correspondiente usando el nombre de
+  // la carpeta raiz del .pcd
+  char nombreCSVSalida[MAX_CADENA];
+  strcpy(nombreCSVSalida,nombreCarpetaNube);
+  append_string(nombreCSVSalida,SUBFIJO_CSV_POR_DEFECTO);
+
+
+  // Se genera la ruta completa del csv de salida.
   char* pathCsvSalida=(char *)malloc(MAX_CADENA);
   strcpy(pathCsvSalida,carpetaCsv);
-  strcpy(pathCsvSalida,"/");
-  strcpy(pathCsvSalida,pcFile);
-  
+  append_string(pathCsvSalida,"/");
+  append_string(pathCsvSalida,nombreCSVSalida);
 
+
+  // Se genera la ruta completa con el .pcd que se convertira.
   char* pathPcdEntrada=(char *)malloc(MAX_CADENA);
   strcpy(pathPcdEntrada,carpetaRaizPcd);
-  strcpy(pathPcdEntrada,"/");
-  strcpy(pathPcdEntrada,pcdEntrada);
+  append_string(pathPcdEntrada,"/");
+  append_string(pathPcdEntrada,pcdEntrada);
 
   // Read inputs
   std::string input_cloud(pathPcdEntrada);
@@ -153,8 +162,7 @@ char* generarCsv(char* pcdEntrada,char* pcFile, char* carpetaRaizPcd, char* carp
   PointCloudToWebgl converter(input_cloud,FORMATO_NUBE, output_cloud);
   // PointCloudToWebgl converter(input_cloud,cloud_format, output_cloud);
   converter.convert();
-
-  return pcFile;
+  return nombreCSVSalida;
 
 }
 

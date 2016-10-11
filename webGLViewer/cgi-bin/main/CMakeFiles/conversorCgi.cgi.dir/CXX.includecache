@@ -33,6 +33,8 @@ fcntl.h
 -
 errno.h
 -
+signal.h
+-
 ../../lib/shared.h
 /var/www/html/tkinect2016/webGLViewer/cgi-bin/lib/shared.h
 

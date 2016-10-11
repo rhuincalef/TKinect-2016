@@ -3,15 +3,13 @@
 	#define INCLUIDO_MAX_CADENA
 	const int MAX_CADENA = 150;
 #else
-	extern std::string PATH_PCD_EN_SERVIDOR;
+	extern int MAX_CADENA;
 #endif
 
 // const char* PC_FILE_DEFECTO = "pc.csv";
 
 // Directorio raiz en el servidor para el archivo .pcd especifico de una falla
 // (directorio donde se almacena "Multimedia").
-
-
 #ifndef INCLUIDO_PATH_PCD
 	#define INCLUIDO_PATH_PCD
 	const std::string PATH_PCD_EN_SERVIDOR = "http://localhost/web/multimedia/";
@@ -29,12 +27,9 @@
 #endif
 
 
-// const char* FORMATO_NUBE = 0;
-
-
 // Metodos necesarios por varios modulos
 void imprimir_json(char* csv_nube, char* imagen);
 void debug(std::string msg);
-char* generarCsv(char* pcdEntrada,char* pcFile, char* carpetaRaizPcd, char* carpetaCsv);
-
+char* generarCsv(char* pcdEntrada,char* nombreCarpetaNube, char* carpetaRaizPcd,char* carpetaCsv);
+void append_string(char* destino,char* fuente);
 
