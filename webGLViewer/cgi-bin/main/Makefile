@@ -112,6 +112,19 @@ conversorCgi.cgi/fast:
 .PHONY : conversorCgi.cgi/fast
 
 #=============================================================================
+# Target rules for targets named excepciones
+
+# Build rule for target.
+excepciones: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 excepciones
+.PHONY : excepciones
+
+# fast build rule for target.
+excepciones/fast:
+	$(MAKE) -f CMakeFiles/excepciones.dir/build.make CMakeFiles/excepciones.dir/build
+.PHONY : excepciones/fast
+
+#=============================================================================
 # Target rules for targets named pcd_to_csv
 
 # Build rule for target.
@@ -160,6 +173,30 @@ conversorCgi.s: conversorCgi.cpp.s
 conversorCgi.cpp.s:
 	$(MAKE) -f CMakeFiles/conversorCgi.cgi.dir/build.make CMakeFiles/conversorCgi.cgi.dir/conversorCgi.cpp.s
 .PHONY : conversorCgi.cpp.s
+
+var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.o: var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.o
+.PHONY : var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.o
+
+# target to build an object file
+var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.o:
+	$(MAKE) -f CMakeFiles/excepciones.dir/build.make CMakeFiles/excepciones.dir/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.o
+.PHONY : var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.o
+
+var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.i: var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.i
+.PHONY : var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.i
+
+# target to preprocess a source file
+var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.i:
+	$(MAKE) -f CMakeFiles/excepciones.dir/build.make CMakeFiles/excepciones.dir/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.i
+.PHONY : var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.i
+
+var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.s: var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.s
+.PHONY : var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.s
+
+# target to generate assembly for a file
+var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.s:
+	$(MAKE) -f CMakeFiles/excepciones.dir/build.make CMakeFiles/excepciones.dir/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.s
+.PHONY : var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.s
 
 var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.o: var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.cpp.o
 .PHONY : var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.o
@@ -217,12 +254,16 @@ help:
 	@echo "... depend"
 	@echo "... conversorCgi.cgi"
 	@echo "... edit_cache"
+	@echo "... excepciones"
 	@echo "... pcd_to_csv"
 	@echo "... pcd_to_json"
 	@echo "... rebuild_cache"
 	@echo "... conversorCgi.o"
 	@echo "... conversorCgi.i"
 	@echo "... conversorCgi.s"
+	@echo "... var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.o"
+	@echo "... var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.i"
+	@echo "... var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.s"
 	@echo "... var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.o"
 	@echo "... var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.i"
 	@echo "... var/www/html/tkinect2016/webGLViewer/cgi-bin/pcd_to_csv_webGL-guille/generar_csv_desde_pcd.s"

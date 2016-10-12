@@ -44,6 +44,11 @@ include_directories("../pcd_to_json_script/lib")
 add_library(pcd_to_json STATIC "../pcd_to_json_script/imprimir_datos_json.cpp")
 
 
+# Se incluyen la libreria con definicion de excepciones
+include_directories("../excepciones/lib")
+add_library(excepciones STATIC "../excepciones/excepciones.cpp")
+
+
 # TODO: AGREGAR EL CODIGO QUE GENERA LA IMAGEN ACA COMO LIBRERIA!!!
 # Se incluyen la libreria de pcd_to_csv para ser compilada con el main
 #include_directories("../pcd_to_csv_webGL-guille/lib")
@@ -57,6 +62,6 @@ add_executable(conversorCgi.cgi conversorCgi.cpp)
 # Se vincula la libreria que genera el .csv a partir del .pcd 
 target_link_libraries(pcd_to_csv ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})
 
-target_link_libraries(conversorCgi.cgi ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES}  pcd_to_csv  pcd_to_json)
+target_link_libraries(conversorCgi.cgi ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES}  pcd_to_csv  pcd_to_json excepciones)
 
 

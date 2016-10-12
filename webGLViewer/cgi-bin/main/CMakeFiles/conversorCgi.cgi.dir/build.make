@@ -129,6 +129,7 @@ build/conversorCgi.cgi: /usr/lib/i386-linux-gnu/libpthread.so
 build/conversorCgi.cgi: /usr/lib/libpcl_common.so
 build/conversorCgi.cgi: libpcd_to_csv.a
 build/conversorCgi.cgi: libpcd_to_json.a
+build/conversorCgi.cgi: libexcepciones.a
 build/conversorCgi.cgi: /usr/lib/libvtkGenericFiltering.so.5.8.0
 build/conversorCgi.cgi: /usr/lib/libvtkGeovis.so.5.8.0
 build/conversorCgi.cgi: /usr/lib/libvtkCharts.so.5.8.0

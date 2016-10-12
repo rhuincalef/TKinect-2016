@@ -6,6 +6,8 @@
 
 #IncludeRegexTransform: 
 
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/lib/excepciones.h
+
 /var/www/html/tkinect2016/webGLViewer/cgi-bin/lib/shared.h
 
 /var/www/html/tkinect2016/webGLViewer/cgi-bin/main/conversorCgi.cpp
@@ -27,8 +29,6 @@ string.h
 -
 sys/stat.h
 -
-exception
--
 fcntl.h
 -
 errno.h
@@ -37,4 +37,6 @@ signal.h
 -
 ../../lib/shared.h
 /var/www/html/tkinect2016/webGLViewer/cgi-bin/lib/shared.h
+../../excepciones/lib/excepciones.h
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/lib/excepciones.h
 

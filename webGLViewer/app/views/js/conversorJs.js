@@ -15,14 +15,21 @@
 // Definicion de namespace con funcion anonima
 (function(nameSpaceCgi,$,undefined){
 
-	function transformarNubePtos(nombreCarpetaNube,nombrePc,nombreInfo,nombreImg){
+	function transformarNubePtos(idFalla){
 			$.ajax(
-					url:"../../cgi-bin/main/build/conversorCgi.cgi?nombreCarpetaNube=" +nombreCarpetaNube+
-					"&pcFile="+nombrePc+"&imgFile="+nombreImg,
+					url:"../../cgi-bin/main/build/conversorCgi.cgi?idFalla=" + idFalla,
 					success:function(data,status,jqhxr){
 								debug('Peticion a cgi-bin correcta!');
 								var json_estado = JSON.parse(data);
 								if (json_estado.estado == 400){
+									debug("Ha ocurrido un error en el servidor -->");
+									debug(json_estado.error);
+									return;
+								}else if(json_estado.estado == 401){
+									debug("Ha ocurrido un error en el servidor -->");
+									debug(json_estado.error);
+									return;
+								}else if(json_estado.estado == 402){
 									debug("Ha ocurrido un error en el servidor -->");
 									debug(json_estado.error);
 									return;
@@ -31,7 +38,7 @@
 									debug('Los datos capturados desde el server fueron -->');
 									debug(json_estado.datos);
 									debug('------------------------------------------------');
-									generar_info_csv(nombreCarpetaNube,nombreInfo,json_estado);
+									generar_info_csv(nombreCarpetaNube,json_estado);
 								}
 								
 					},
@@ -41,9 +48,10 @@
 					);
 	}
 
-	function generar_info_csv(nombreCarpetaNube,nombreInfo,json_estado){
+	// Se genera el csv requerido para mostrar como descripcion en el thumbnail.
+	function generar_info_csv(idFalla,json_estado){
 		$.ajax(
-			url:"../../helpers/generar_csv.php?nombreCarpetaNube="+nombreCarpetaNube+"&infoFile="+nombreInfo,
+			url:"../../helpers/generar_csv.php?idFalla="+idFalla+"&raizTmp="+json_estado.raiz_tmp,
 			success:function(data,status,jqhxr){
 				debug("Exito generando el csv...");
 				var json1 = JSON.parse(data);
@@ -55,7 +63,6 @@
 				debug("Error!!");
 			});
 	}
-
 
 	// TODO: Ensamblar esta parte con la parte que lee los archivos pc.csv,
 	// info.csv y imagen.png en Js!

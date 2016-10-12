@@ -1,5 +1,4 @@
 <?php
-
 /*
  *---------------------------------------------------------------
  * CONFIGURATION
@@ -8,15 +7,16 @@
  * Different variables to be configured
  */
 
-
-
-
 // EJEMPLO DE INVOCACION DEL SCRIPT
 // http://localhost/tkinect2016/webGLViewer/index.php?idfalla=pointcloud_1
 
 
 // The directory where your pointclouds are saved
 define("DATAFOLDER", "data");
+
+define("NOMBRE_DATA_CSV","data.csv");
+
+
 
 // The filenames of the pointclouds
 // NOTA IMPORTANTE: METODO DE INVOCACION es -->
@@ -26,19 +26,17 @@ define("DATAFOLDER", "data");
 // * Se supone que con este metodo las fallas se almacenan en una carpeta
 // con el mismo nombre de la falla y del archivo .pcd. 
 // Por ej. pointcloud_1/pointcloud_1.pcd 
+// $nombrePc=$_REQUEST['idfalla'];."_pc.csv"
+// $nombreInfo=$_REQUEST['idfalla']."_info.csv";
+// $nombreImg=$_REQUEST['idfalla'].."_img.csv";
 
-
-
-$nombrePc=$_REQUEST['idfalla'];."_pc.csv"
-$nombreInfo=$_REQUEST['idfalla']."_info.csv";
-$nombreImg=$_REQUEST['idfalla'].."_img.csv";
-
-define("PCFILE", $nombrePc);
-define("PCINFO", $nombreInfo);
-define("PCIMG", $nombreImg);
+// define("PCFILE", $nombrePc);
+// define("PCINFO", $nombreInfo);
+// define("PCIMG", $nombreImg);
 
 // Can be development or production
 define("ENVIRONMENT", "development");
+
 
 // The development url
 define("DEVELURL", "http://localhost/tkinect2016/webGLViewer/");

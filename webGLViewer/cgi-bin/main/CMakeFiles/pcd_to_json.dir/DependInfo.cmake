@@ -33,6 +33,7 @@ SET(CMAKE_C_TARGET_INCLUDE_PATH
   "/usr/share/pcl-1.7"
   "../pcd_to_csv_webGL-guille/lib"
   "../pcd_to_json_script/lib"
+  "../excepciones/lib"
   )
 SET(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
 SET(CMAKE_Fortran_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})

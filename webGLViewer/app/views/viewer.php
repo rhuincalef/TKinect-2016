@@ -85,9 +85,11 @@ else {
 }
 
 
-  // Script donde se invoca a los CGI para generar los archivos necesarios de cgi
-  // Script donde se realizan las peticiones ajax a los cgi-bin
-  require_once("../helpers/conversorNubeKinect.php");
+
+
+// Script donde se invoca a los CGI para generar los archivos necesarios de cgi
+// Script donde se realizan las peticiones ajax a los cgi-bin
+require_once("../helpers/conversorNubeKinect.php");
 
 ?>
 
@@ -119,9 +121,6 @@ else {
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/webgl-detector.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/three.min.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/papaparse.min.js';?>"></script>
-
-
-    <!-- <script type="text/javascript" src="conversorJs.js"></script> -->
 
     <!-- Script donde se definen las funciones de carga de csv remotos -->
     <script type="text/javascript" src="js/config-carga-csv.js"></script>

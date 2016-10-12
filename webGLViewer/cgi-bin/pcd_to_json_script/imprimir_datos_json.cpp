@@ -21,9 +21,10 @@ using namespace std;
 *		  "imagen" : "http://localhost/csv_temp/img.png" }
 *
 */ 
-void imprimir_json(char* csv_nube, char* imagen){
+void imprimir_json(char* csv_nube, char* imagen,char* carpetaTmpRaiz){
 	cout << "Content-Type: application/json; charset=UTF-8\r\n\r\n";
-	cout << "{ \"csv_nube\" : " << "'" << csv_nube<< "'" << "," << std::endl;
+	cout << "{ \"raiz_tmp\" : " << "'" << carpetaTmpRaiz << "'" << "," << std::endl;
+	cout << " \"csv_nube\" : " << "'" << csv_nube<< "'" << "," << std::endl;
 	cout << " \"imagen\" : " << "'" << imagen <<"'" << std::endl;
 	cout << " }"<< std::endl;
 }

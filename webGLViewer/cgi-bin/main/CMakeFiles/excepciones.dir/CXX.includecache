@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp
+exception
+-
+lib/excepciones.h
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/lib/excepciones.h
+
+/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/lib/excepciones.h
+

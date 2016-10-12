@@ -1,4 +1,4 @@
-// Constantes globales compartidas por otros modulos
+// Constantes globales compartidas por, otros modulos
 #ifndef INCLUIDO_MAX_CADENA
 	#define INCLUIDO_MAX_CADENA
 	const int MAX_CADENA = 150;
@@ -28,7 +28,7 @@
 
 
 // Metodos necesarios por varios modulos
-void imprimir_json(char* csv_nube, char* imagen);
+void imprimir_json(char* csv_nube, char* imagen,char* carpetaTmpRaiz);
 void debug(std::string msg);
 char* generarCsv(char* pcdEntrada,char* nombreCarpetaNube, char* carpetaRaizPcd,char* carpetaCsv);
 void append_string(char* destino,char* fuente);

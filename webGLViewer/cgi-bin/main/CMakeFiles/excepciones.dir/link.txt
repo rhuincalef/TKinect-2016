@@ -1,0 +1,2 @@
+/usr/bin/ar cr libexcepciones.a  CMakeFiles/excepciones.dir/var/www/html/tkinect2016/webGLViewer/cgi-bin/excepciones/excepciones.cpp.o
+/usr/bin/ranlib libexcepciones.a

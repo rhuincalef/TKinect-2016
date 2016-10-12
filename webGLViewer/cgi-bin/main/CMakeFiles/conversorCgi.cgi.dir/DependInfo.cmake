@@ -22,6 +22,7 @@ SET(CMAKE_TARGET_DEFINITIONS
 SET(CMAKE_TARGET_LINKED_INFO_FILES
   "/var/www/html/tkinect2016/webGLViewer/cgi-bin/main/CMakeFiles/pcd_to_csv.dir/DependInfo.cmake"
   "/var/www/html/tkinect2016/webGLViewer/cgi-bin/main/CMakeFiles/pcd_to_json.dir/DependInfo.cmake"
+  "/var/www/html/tkinect2016/webGLViewer/cgi-bin/main/CMakeFiles/excepciones.dir/DependInfo.cmake"
   )
 
 # The include file search paths:
@@ -35,6 +36,7 @@ SET(CMAKE_C_TARGET_INCLUDE_PATH
   "/usr/share/pcl-1.7"
   "../pcd_to_csv_webGL-guille/lib"
   "../pcd_to_json_script/lib"
+  "../excepciones/lib"
   )
 SET(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
 SET(CMAKE_Fortran_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
