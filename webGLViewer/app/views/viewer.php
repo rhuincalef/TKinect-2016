@@ -89,7 +89,7 @@ else {
 
 // Script donde se invoca a los CGI para generar los archivos necesarios de cgi
 // Script donde se realizan las peticiones ajax a los cgi-bin
-require_once("../helpers/conversorNubeKinect.php");
+// require_once("../helpers/conversorNubeKinect.php");
 
 ?>
 
@@ -116,12 +116,13 @@ require_once("../helpers/conversorNubeKinect.php");
   </head>
 
   <body>
+    
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/bootstrap.min.js';?>" ></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/webgl-detector.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/three.min.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/papaparse.min.js';?>"></script>
-
+    
     <!-- Script donde se definen las funciones de carga de csv remotos -->
     <script type="text/javascript" src="js/config-carga-csv.js"></script>
 
@@ -367,9 +368,12 @@ require_once("../helpers/conversorNubeKinect.php");
 
       });
     </script>
+
+
+
      <!-- Script que carga el html para el renderizado de webGL -->
     <script type="text/javascript">
-      $("body").load("ContainerWebGL.html");
+      $("body").load("html/ContainerWebGL.html");
       $.get("inicializacion_gui.php?datafolder="+<?php echo "'".DATAFOLDER."'";?>+"&pcFolder="+<?php echo "'".$pcFolder."'";?>,
         function(data){
           $("body").append(data);

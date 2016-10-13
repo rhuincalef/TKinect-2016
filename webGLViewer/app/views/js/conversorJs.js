@@ -24,17 +24,19 @@
 								if (json_estado.estado == 400){
 									debug("Ha ocurrido un error en el servidor -->");
 									debug(json_estado.error);
+									mostrar_error_thumnail(json_estado.error);
 									return;
 								}else if(json_estado.estado == 401){
 									debug("Ha ocurrido un error en el servidor -->");
 									debug(json_estado.error);
+									mostrar_error_thumnail(json_estado.error);
 									return;
 								}else if(json_estado.estado == 402){
 									debug("Ha ocurrido un error en el servidor -->");
 									debug(json_estado.error);
+									mostrar_error_thumnail(json_estado.error);
 									return;
 								}else{
-
 									debug('Los datos capturados desde el server fueron -->');
 									debug(json_estado.datos);
 									debug('------------------------------------------------');
@@ -43,7 +45,8 @@
 								
 					},
 					error: function(data,status,jqhxr){
-								debug('Error en la SOLICITUD CGI-BIN');
+								debug('Error en la solicitud');
+								mostrar_error_thumnail(errStatus);
 							}
 					);
 	}
@@ -53,20 +56,36 @@
 		$.ajax(
 			url:"../../helpers/generar_csv.php?idFalla="+idFalla+"&raizTmp="+json_estado.raiz_tmp,
 			success:function(data,status,jqhxr){
-				debug("Exito generando el csv...");
-				var json1 = JSON.parse(data);
+				if (json_estado.estado != 200) {
+					debug("Error interno del servidor ");
+					debug(json_estado.error);
+					mostrar_error_thumnail(json_estado.error);
+					return;
+				}
+				debug("Obtenido csv de informacion...");
 				var json_final = json_estado;
-				json_final["path_csv"] = json1.path_csv;
-				cargar_imagen_en_container(json_estado);				
+				var json_csv = JSON.parse(data);
+				json_final["path_csv"] = json_csv.path_csv;
+				// Continuar por aca! para el caso de exito.
+
+
+
 			},
-			error:function(data,status,jqhxr){
-				debug("Error!!");
+			error:function(data,errStatus,jqhxr){
+				debug('Error en la solicitud');
+				mostrar_error_thumnail(errStatus);
 			});
 	}
 
-	// TODO: Ensamblar esta parte con la parte que lee los archivos pc.csv,
-	// info.csv y imagen.png en Js!
-	function cargar_imagen_en_container(json_estado){
+
+
+	// TODO: CONTINUAR ACA, CONFIGURANDO EL ALERT!!!
+	// Genera un alert para el thumnail
+	function mostrar_error_thumnail(msgError){
+		// Configuracion del alert
+		$('#error-alert').attr("class","alert alert-danger alert-dismissible fade");
+		// 
+
 
 	}
 

@@ -17,7 +17,7 @@ public:
    */
   void convert()
   {
-    std::cout << "[PointCloudToWebgl:] Opening file " << input_cloud_ << std::endl;
+    // std::cout << "[PointCloudToWebgl:] Opening file " << input_cloud_ << std::endl;
 
     // Init the cloud
     pcl::PointCloud<pcl::PointXYZRGB> cloud;
@@ -29,7 +29,7 @@ public:
       pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_xyz (new pcl::PointCloud<pcl::PointXYZ>);
       if (pcl::io::loadPCDFile<pcl::PointXYZ> (input_cloud_, *cloud_xyz) == -1) //* load the file
       {
-        std::cout << "[PointCloudToWebgl:] Couldn't read file " << input_cloud_ << std::endl;
+        // std::cout << "[PointCloudToWebgl:] Couldn't read file " << input_cloud_ << std::endl;
         return;
       }
       /*
@@ -43,7 +43,7 @@ public:
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_xyzrgb (new pcl::PointCloud<pcl::PointXYZRGB>);
       if (pcl::io::loadPCDFile<pcl::PointXYZRGB> (input_cloud_, *cloud_xyzrgb) == -1) //* load the file
       {
-        std::cout << "[PointCloudToWebgl:] Couldn't read file " << input_cloud_ << std::endl;
+        // std::cout << "[PointCloudToWebgl:] Couldn't read file " << input_cloud_ << std::endl;
         return;
       }
       /*
@@ -57,7 +57,7 @@ public:
     pcl::compute3DCentroid(cloud, centroid);
 
     // Save int file
-    std::cout << "[PointCloudToWebgl:] Saving webgl file to " << output_cloud_ << std::endl;
+    // std::cout << "[PointCloudToWebgl:] Saving webgl file to " << output_cloud_ << std::endl;
     /*
       Ver si pertenece a PCL o ver alternativa.
       - - - f_webgl  - -
@@ -83,7 +83,7 @@ public:
 
     }
     f_webgl.close();
-    std::cout << "[PointCloudToWebgl:] Saved!" << std::endl;
+    // std::cout << "[PointCloudToWebgl:] Saved!" << std::endl;
   }
 
   private:
@@ -95,8 +95,8 @@ public:
 
 
 void debug(std::string msg){
-  std::cout << msg << std::endl;
-  std::cout << "" << std::endl;
+  // std::cout << msg << std::endl;
+  // std::cout << "" << std::endl;
 }
 
 
@@ -181,8 +181,8 @@ char* generarCsv(char* pcdEntrada,char* nombreCarpetaNube, char* carpetaRaizPcd,
 // {
 //   if (argc < 4)
 //   {
-//     std::cout << "Usage: " << argv[0] << " INPUT_PCD FORMAT OUTPUT_CSV" << std::endl;
-//     std::cout << "  Example: " << argv[0] << " input_cloud.pcd 0 output_cloud.csv" << std::endl;
+//     // std::cout << "Usage: " << argv[0] << " INPUT_PCD FORMAT OUTPUT_CSV" << std::endl;
+//     // std::cout << "  Example: " << argv[0] << " input_cloud.pcd 0 output_cloud.csv" << std::endl;
 //     return 0;
 //   }
 //   using namespace std;

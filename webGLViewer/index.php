@@ -50,6 +50,12 @@ $firephp = FirePHP::getInstance(true);
 
 
 
+// Metodo de prueba de index.php
+// http://localhost/tkinect2016/webGLViewer/index.php?idfalla=pointcloud_1
+
+
+$idFalla = $_GET['idfalla'];
+
 /*
  *---------------------------------------------------------------
  * URL PARSER
@@ -62,6 +68,10 @@ $firephp = FirePHP::getInstance(true);
 include('app/helpers/url.php');
 $pathInfo = parsePath($firephp);
 
+
+
+// Se incluye la clase PHP que configura 
+include('app/helpers/url.php');
 
 $firephp->fb('$pathInfo obtenido -->');
 $firephp->fb($pathInfo);
@@ -84,12 +94,12 @@ if (sizeof($pathInfo['call_parts']) > 0) {
       break;
     default:
       $firephp->fb("entre por default");
-      include('app/views/home.php');
+      include('app/views/home.php?idfalla='.$idFalla);
       break;
   }
 }
 else {
-  include('app/views/home.php');
+  include('app/views/home.php?idfalla='.$idFalla);
 }
 
 ?>
