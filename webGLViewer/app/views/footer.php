@@ -6,6 +6,16 @@
     </div>
   </div>
 
+
+  <!-- Div para el alert de error -->
+  <!-- <div id="alertError" class="alert alert-danger alert-dismissible" role="alert"> -->
+  <!-- <div id="alertError" style="display:none;" role="alert">
+    <button type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="alert-heading">Error en servidor</h4>
+    <p id = "msgError"></p>
+  </div>
+   -->
+
   </div> <!-- /container -->
 </body>
 </html>

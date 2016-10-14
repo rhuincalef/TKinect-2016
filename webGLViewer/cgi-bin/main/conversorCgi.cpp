@@ -33,11 +33,10 @@ void imprimirErrorJson(char* msg,int codigo){
 // 				"error":"MENSAJE DE TIPO DE ERRROR"
 // }
 	std::cout << "Content-Type: application/json; charset=UTF-8\r\n\r\n";
-	std::cout << "{" << std::endl;
-	std::cout << "'estado':" << "'" << codigo << "'" << "," << std::endl;
-	std::cout << "'datos': " << "{" <<  "}" << "," << std::endl;
-	std::cout << "'error':" << "'"<< msg << "'" << std::endl;
-	std::cout << "}" << std::endl;
+	std::cout << "{"<< "\"estado\":" << "\"" << codigo << "\"" << ",";
+	std::cout << "\"datos\":" << "{" <<  "}" << ",";
+	std::cout << "\"error\":" << "\""<< msg << "\"";
+	std::cout << "}";
 }
 
 

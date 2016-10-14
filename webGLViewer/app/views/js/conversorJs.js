@@ -15,26 +15,33 @@
 // Definicion de namespace con funcion anonima
 (function(nameSpaceCgi,$,undefined){
 
-	function transformarNubePtos(idFalla){
-			$.ajax(
-					url:"../../cgi-bin/main/build/conversorCgi.cgi?idFalla=" + idFalla,
+
+	function debug(msg){
+		console.log(msg);
+	}
+
+	nameSpaceCgi.transformarNubePtos = function (idFalla){
+			$.ajax({
+					url:"cgi-bin/main/build/conversorCgi.cgi?idFalla=" + idFalla,
 					success:function(data,status,jqhxr){
 								debug('Peticion a cgi-bin correcta!');
-								var json_estado = JSON.parse(data);
+								debug(data.error);
+								// var json_estado = JSON.parse(data.responseText);
+								var json_estado = data;
 								if (json_estado.estado == 400){
 									debug("Ha ocurrido un error en el servidor -->");
 									debug(json_estado.error);
-									mostrar_error_thumnail(json_estado.error);
+									nameSpaceCgi.mostrar_error_thumnail(json_estado.error);
 									return;
 								}else if(json_estado.estado == 401){
 									debug("Ha ocurrido un error en el servidor -->");
 									debug(json_estado.error);
-									mostrar_error_thumnail(json_estado.error);
+									nameSpaceCgi.mostrar_error_thumnail(json_estado.error);
 									return;
 								}else if(json_estado.estado == 402){
 									debug("Ha ocurrido un error en el servidor -->");
 									debug(json_estado.error);
-									mostrar_error_thumnail(json_estado.error);
+									nameSpaceCgi.mostrar_error_thumnail(json_estado.error);
 									return;
 								}else{
 									debug('Los datos capturados desde el server fueron -->');
@@ -44,16 +51,20 @@
 								}
 								
 					},
-					error: function(data,status,jqhxr){
-								debug('Error en la solicitud');
-								mostrar_error_thumnail(errStatus);
+					error: function(data,textoErr,jqhxr){
+								// a = '{"estado":402,"datos": {},"error":"Error al escribir la imagen"}';
+								// JSON.parse(a);
+								debug('Error en la solicitud 1-->');
+								debug(data);
+								var json1 = JSON.parse(data.responseText);
+								nameSpaceCgi.mostrar_error_thumnail(json1.error);
 							}
-					);
+						});
 	}
 
 	// Se genera el csv requerido para mostrar como descripcion en el thumbnail.
 	function generar_info_csv(idFalla,json_estado){
-		$.ajax(
+		$.ajax({
 			url:"../../helpers/generar_csv.php?idFalla="+idFalla+"&raizTmp="+json_estado.raiz_tmp,
 			success:function(data,status,jqhxr){
 				if (json_estado.estado != 200) {
@@ -66,27 +77,50 @@
 				var json_final = json_estado;
 				var json_csv = JSON.parse(data);
 				json_final["path_csv"] = json_csv.path_csv;
-				// Continuar por aca! para el caso de exito.
-
-
+				// Peticiones del json.
+				
+				csv_nube = json_final["raiz_tmp"]+json_final["csv_nube"];
+				imagen = json_final["raiz_tmp"]+json_final["imagen"];
+				path_csv = json_final["path_csv"];
+				$("#imagenThumb").attr("src",imagen);
+				// Se parsea el csv con la descripcion
+				Papa.parse(path_csv, {
+					download: true,
+					complete: function(results, file) {
+						// {
+						// 	data:   // array of parsed data
+						// 	errors: // array of errors
+						// 	meta:   // object with extra info
+						// }
+						console.log("Resultados parseados del csv");
+						console.log(result[0]);
+						console.log(result[1]);
+						$("#descripcion").append(result[0],result[1]);
+					},
+					error: function(err, file, inputElem, reason){
+						nameSpaceCgi.mostrar_error_thumnail("Error en PapaParse: "+err);
+					} 
+				});
 
 			},
-			error:function(data,errStatus,jqhxr){
-				debug('Error en la solicitud');
-				mostrar_error_thumnail(errStatus);
-			});
+			error:function(data,status,jqhxr){
+				debug('Error en la solicitud 2 -->');
+				nameSpaceCgi.mostrar_error_thumnail(status);
+			}
+		});
 	}
 
 
-
-	// TODO: CONTINUAR ACA, CONFIGURANDO EL ALERT!!!
 	// Genera un alert para el thumnail
-	function mostrar_error_thumnail(msgError){
-		// Configuracion del alert
-		$('#error-alert').attr("class","alert alert-danger alert-dismissible fade");
-		// 
-
-
+	nameSpaceCgi.mostrar_error_thumnail = function (msgError){
+		$.notify({
+					title: '<strong>Error en el servidor: </strong>',
+					message: msgError
+				},
+				{
+					type: 'danger'
+		});
+		$("#imagenThumb").attr("src","app/views/res/errorInterno.png");
 	}
 
 }( window.nameSpaceCgi = window.nameSpaceCgi || {},jQuery));

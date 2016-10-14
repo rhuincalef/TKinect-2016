@@ -20,14 +20,16 @@
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/webgl-detector.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/three.min.js';?>"></script>
     <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/papaparse.min.js';?>"></script>
+    
+    <script src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/tkinect2016/webGLViewer/js/notify/bootstrap-notify.js';?>"></script>
 
 
 
     <!-- Se cargan las librerias para la generacion de la imagen y 
     la descripcion del thumnail. -->
-    <script type='text/javascript' src="js/conversorJs.js" ></script>
-    <script type="text/javascript" src ="js/thumnailFalla.js" ></script>
-
+    <link rel="stylesheet" type="text/css" href="app/views/js/errorThumbnail.css">
+    <script type='text/javascript' src="app/views/js/conversorJs.js" ></script>
+    <script type="text/javascript" src ="app/views/js/thumnailFalla.js" ></script>
   
   </head> 
 

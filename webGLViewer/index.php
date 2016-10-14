@@ -54,7 +54,10 @@ $firephp = FirePHP::getInstance(true);
 // http://localhost/tkinect2016/webGLViewer/index.php?idfalla=pointcloud_1
 
 
+
+$firephp->fb("Leyendo falla...");
 $idFalla = $_GET['idfalla'];
+$firephp->fb($idFalla);
 
 /*
  *---------------------------------------------------------------
@@ -71,8 +74,6 @@ $pathInfo = parsePath($firephp);
 
 
 // Se incluye la clase PHP que configura 
-include('app/helpers/url.php');
-
 $firephp->fb('$pathInfo obtenido -->');
 $firephp->fb($pathInfo);
 $firephp->fb("");
@@ -94,12 +95,15 @@ if (sizeof($pathInfo['call_parts']) > 0) {
       break;
     default:
       $firephp->fb("entre por default");
-      include('app/views/home.php?idfalla='.$idFalla);
+      require($_SERVER['DOCUMENT_ROOT'].'/tkinect2016/webGLViewer/'.'app/views/home.php');
+      // require($_SERVER['DOCUMENT_ROOT'].'/tkinect2016/webGLViewer/'.'app/views/home.php?idfalla='.$idFalla);
       break;
   }
 }
 else {
-  include('app/views/home.php?idfalla='.$idFalla);
+  $firephp->fb("Default 2");  
+  require($_SERVER['DOCUMENT_ROOT'].'/tkinect2016/webGLViewer/'.'app/views/home.php');
 }
+
 
 ?>
