@@ -86,18 +86,13 @@
 				csv_nube = json_final["raiz_tmp"]+json_final["csv_nube"];
 				imagen = json_final["raiz_tmp"]+json_final["imagen"];
 				path_csv = json_final["path_csv"];
-
-				// debug("Imagen a appendear -->");
-				// debug(imagen);
-				// debug("");
-				// $("#imagenThumb").attr("src",imagen);
 				
 				// Se parsea el csv con la descripcion
 				Papa.parse(path_csv, {
 					download: true,
 					complete: function(results, file) {
 						mostrar_texto_thumnail(idFalla,results.data[0][0],
-							results.data[1][0]);
+							results.data[1][0],imagen);
 					},
 					error: function(err, file, inputElem, reason){
 						nameSpaceCgi.mostrar_error_thumnail("Error en PapaParse: "+err);
@@ -113,8 +108,7 @@
 	}
 
 	// Configura el thumbnail para el caso de exito.
-	mostrar_texto_thumnail = function(idFalla,titulo,descripcion){
-		// $("#imagenThumb").attr("src","");
+	mostrar_texto_thumnail = function(idFalla,titulo,descripcion,imagen){
 		$("#descripcion").attr("class", "texto-exito");
 		$("#descripcion").append("<h2>"+titulo+"</h2>");
 		$("#descripcion").append("<h4>"+descripcion+"</h4>");
@@ -122,7 +116,8 @@
 		$("#botonVisualizador").attr("href",
 			"app/views/viewer.php?c=" + idFalla);
 		$("#contBoton").attr("class","margen-boton");
-
+		// $("#imagenThumb").attr("src","http://localhost/tkinect2016/webGLViewer/img/default.png");
+		$("#imagenThumb").attr("src",imagen);
 
 	}
 

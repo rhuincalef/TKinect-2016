@@ -5,6 +5,9 @@
 #include <string.h>
 
 
+#define MAX_BUFFER 100
+#define MAX_CADENA 200
+
 void append_string(char* destino,char* fuente,int tamanio_buffer){
 	std::cout << "Destino long.: " << strlen(destino) << std::endl;
 	std::cout << "Fuente long.: " << strlen(fuente) << std::endl;
@@ -17,6 +20,23 @@ void append_string(char* destino,char* fuente,int tamanio_buffer){
 	// return destino;
 }
 
+void copiar_archivo(FILE* fuente,FILE* destino){
+	char* buffer= (char*) malloc(sizeof(char) * MAX_BUFFER);
+	int cantBytes;
+	// Si no ocurrio un error al leer
+	while(1){
+		if (feof(fuente)){
+			// std::cout << "Alcanzado fin de archivo!" << std::endl;
+			break;
+		}
+		cantBytes += fread(buffer,1,MAX_BUFFER,fuente);
+		// std::cout << "Leidos  " << cantBytes << " bytes." << std::endl;
+		fwrite(buffer,MAX_BUFFER,1,destino);
+	}
+	fclose(fuente);
+	fclose(destino);
+	free(buffer);
+}
 
 
 int main(int argc, char const *argv[])
@@ -44,12 +64,24 @@ int main(int argc, char const *argv[])
 	// std::cout << "Luego de append... "<< std::endl;
 	// std::cout << "str1: "<< str1 << std::endl;
 	// std::cout << "str2: "<< str2 << std::endl;
-	int errno = 4;
-	char a[200];
-	char cod1[10];
-	sprintf(cod1,"%d",errno);
-	strcpy(micad,"Error al escribir la imagen;Codigo errno= ");
-	strcat(micad,cod1);
-	std::cout << "Codigo = " << micad << std::endl; 
+
+	FILE* fuente;
+	FILE* destino;
+	fuente = fopen("default.png", "rb");
+	/* Si se puede escribir, se copia a destino. Si existe no se hace nada,
+		ya que retorna otro tipo de error (Error EEXIST) y no es necesario
+		sobreescribirla. */
+	if(fuente !=NULL){
+		char* imgNueva = (char*)malloc(MAX_CADENA);
+		strcpy(imgNueva, "nueva.png");
+		destino = fopen(imgNueva,"wb");
+		if (destino == NULL){
+			std::cout << "Error al abrir destino. "<< std::endl;
+			fclose(fuente);
+		}
+		copiar_archivo(fuente,destino);
+	}else{
+		std::cout << "Error al abrir destino. "<< std::endl;	
+	}
 	return 0;
 }

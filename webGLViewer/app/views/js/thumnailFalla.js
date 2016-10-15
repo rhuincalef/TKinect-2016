@@ -32,14 +32,11 @@
         );
       }
 
-
-
-
       // Se cambia el estado del thumnail a cargando mientras se generan
       // los archivos .csv y .png del servidor.
       function solicitar_archivos_thumnail(idFalla){
         // Se modifica el estado del thumnail durante la carga
-        // $("#imagenThumb").attr("src","app/views/res/generandoArchivos.svg");
+        $("#imagenThumb").attr("src","app/views/res/generandoArchivos.svg");
         window.nameSpaceCgi.transformarNubePtos(idFalla);
       }
 

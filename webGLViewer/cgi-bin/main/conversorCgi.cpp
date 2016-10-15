@@ -84,19 +84,22 @@ void crear_directorio(const char* url){
 	// umask(022);
 }
 
-void copiar_archivo(FILE* fuente,FILE* destino){
-	char buffer[MAX_BUFFER];
-	int cantBytes;
 
+void copiar_archivo(FILE* fuente,FILE* destino){
+	char* buffer= (char*) malloc(sizeof(char) * MAX_BUFFER);
+	int cantBytes;
 	// Si no ocurrio un error al leer
-	while( (cantBytes = fread(buffer,MAX_BUFFER,1,fuente) )>0){
+	while(1){
+		if (feof(fuente)){
+			break;
+		}
+		cantBytes += fread(buffer,1,MAX_BUFFER,fuente);
 		fwrite(buffer,MAX_BUFFER,1,destino);
 	}
 	fclose(fuente);
 	fclose(destino);
-
+	free(buffer);
 }
-
 
 // Este metodo copia una imagen por defecto, desde una ubicacion por default,
 // para cada carpeta en la nube de puntos.
@@ -126,9 +129,6 @@ char* generar_imagen(char* nombreCarpetaNube){
 		append_string(imgNueva,PATH_CSV_POR_DEFECTO);
 		append_string(imgNueva,"/");
 		append_string(imgNueva,(char*) NOMBRE_IMG_DEFAULT);
-		// std::cout << std::endl;
-		// std::cout << "Archivo fuente abierto! Imagen nueva: "<< imgNueva << std::endl;
-		// std::cout << std::endl;
 		destino = fopen(imgNueva,"wb");
 		// Error de permisos (EACCES)
 		if (destino == NULL)
@@ -234,6 +234,11 @@ int main(int argc, char const *argv[])
 		// Se copia una imagen por defecto para el thumbnail que se muestra para
 		// la imagen, y se genera la URL de la misma. 
 		char* imgGenerada=(char *)malloc(MAX_CADENA);
+		
+		// TODO: Corregir el metodo copiar_archivo() y checkear con comando $ convert.
+		// Copia imagenes corruptas en  destino.
+		// Por ahora, se pasa el path por defecto de la imagen.
+
 		imgGenerada = generar_imagen(nombreCarpetaNube);
 
 		umask(PERMISOS_DEFAULT);
