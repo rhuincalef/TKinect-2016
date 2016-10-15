@@ -21,6 +21,12 @@ const char* PATH_MULTIMEDIA = "/var/www/html/tkinect2016/webGLViewer/data";
 
 
 
+
+// Permisos de la mascara umask
+const int PERMISOS_RWX = 000;
+const int PERMISOS_DEFAULT = 022;
+
+
 // Subfijos por defecto para los archivos de csv a generar y la imagen.
 // const std::string SUB_PC_CSV_DEFECTO = "_pc.csv"
 // const std::string SUB_INFO_CSV_DEFECTO = "_info.csv"

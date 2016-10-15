@@ -50,17 +50,19 @@ class GeneradorCsv{
 			//Nota: Se podria mostrar en la descripcion del thumbnail el tipo de falla de la que se trata.
 		 	// NOTA csv: Primer linea titulo, Segunda linea descripcion
 			$descripcion_falla = "Hoyo";
-			$contenido_csv = $idFalla.'\n'.$descripcion_falla.'\n';
-			
+			$lista = array( array($idFalla),
+									array($descripcion_falla)
+									);			
 			$tmp = $RAIZ_SERVIDOR.$PATH_CSV.$idFalla.self::SUBFIJO_CSV_DEFECTO;
 			$firephp->fb("tmp -->");
 			$firephp->fb($tmp);
 			$csv_handler = fopen ($tmp,'w');
 			$firephp->fb("VALOR HANDLER -->");
 			$firephp->fb($csv_handler);
-			fwrite ($csv_handler,$contenido_csv);
+			foreach ($lista as $campos) {
+ 			   fputcsv($csv_handler, $campos);
+			}
 			fclose ($csv_handler);
-
 
 			//  { "path_csv": "http://localhost/tkinect2016/data/pointcloud_1/test.csv" }
 			// $json = array('path_csv' => $PROTO.$HOST."/".$json."/".$archivo_info_defecto );

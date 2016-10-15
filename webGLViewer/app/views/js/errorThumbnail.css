@@ -4,6 +4,15 @@
 	font-weight: bold;
 	font-size: 15px;
 }
+.texto-exito {
+	text-align:center !important;
+	padding-top:5% !important;
+	font-weight: bold;
+	font-size: 15px;
+}
+.margen-boton{
+	margin-top:30%;
 
+}
 
 

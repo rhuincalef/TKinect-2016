@@ -32,17 +32,24 @@ int main(int argc, char const *argv[])
 	// const char* FORMATO_NUBE = 0;
 
 
-	char str1[12];
-	char str2[10];
-	strcpy(str1,"12345678");
-	strcpy(str2,"ABC");
+	// char str1[12];
+	// char str2[10];
+	// strcpy(str1,"12345678");
+	// strcpy(str2,"ABC");
 
-	std::cout << "str1: "<< str1<< std::endl;
-	std::cout << "str2: "<< str2<< std::endl;
-	append_string(str1,str2,sizeof str1);
+	// std::cout << "str1: "<< str1<< std::endl;
+	// std::cout << "str2: "<< str2<< std::endl;
+	// append_string(str1,str2,sizeof str1);
 
-	std::cout << "Luego de append... "<< std::endl;
-	std::cout << "str1: "<< str1 << std::endl;
-	std::cout << "str2: "<< str2 << std::endl;
+	// std::cout << "Luego de append... "<< std::endl;
+	// std::cout << "str1: "<< str1 << std::endl;
+	// std::cout << "str2: "<< str2 << std::endl;
+	int errno = 4;
+	char a[200];
+	char cod1[10];
+	sprintf(cod1,"%d",errno);
+	strcpy(micad,"Error al escribir la imagen;Codigo errno= ");
+	strcat(micad,cod1);
+	std::cout << "Codigo = " << micad << std::endl; 
 	return 0;
 }

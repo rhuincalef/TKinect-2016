@@ -76,12 +76,12 @@ char* obtenerNombreArchivoPuntos(char* dir){
 }
 
 void crear_directorio(const char* url){
-	umask(000);
+	// umask(000);
 	int res = mkdir(url ,S_IRWXU | S_IRWXG | S_IRWXO );
 	if (res != 0 && errno != EEXIST)
 		throw ExcepcionCGI("Error de permisos en el servidor",COD_ERROR_IMAGEN_INEXISTENTE);
 	// Se establece de nuevo el valor de la mascara a su valor por defecto
-	umask(022);
+	// umask(022);
 }
 
 void copiar_archivo(FILE* fuente,FILE* destino){
@@ -130,8 +130,10 @@ char* generar_imagen(char* nombreCarpetaNube){
 		// std::cout << "Archivo fuente abierto! Imagen nueva: "<< imgNueva << std::endl;
 		// std::cout << std::endl;
 		destino = fopen(imgNueva,"wb");
+		// Error de permisos (EACCES)
 		if (destino == NULL)
-			throw ExcepcionCGI("Error al escribir la imagen",COD_ERROR_IMAGEN_INEXISTENTE);	
+			throw ExcepcionCGI("Error escribiendo imagen destino en servidor",
+					COD_ERROR_IMAGEN_INEXISTENTE);
 		
 		copiar_archivo(fuente,destino);
 	}else{
@@ -208,6 +210,8 @@ int main(int argc, char const *argv[])
 		// std::cout << "6 nombreCarpetaNube: "<< nombreCarpetaNube << std::endl;
 		// std::cout << std::endl;
 
+		// Se cambia la mascara umask de Linux
+		umask(PERMISOS_RWX);
 		// Se crea el directorio de los csv si no existe. 
 		crear_directorio(carpetaCsvs);
 
@@ -232,6 +236,7 @@ int main(int argc, char const *argv[])
 		char* imgGenerada=(char *)malloc(MAX_CADENA);
 		imgGenerada = generar_imagen(nombreCarpetaNube);
 
+		umask(PERMISOS_DEFAULT);
 		// Se arma la URL de la carpeta raiz y se pasa esto en un campo a parte
 		// de los nombres de los archivos
 		char* urlTmpCompleto = (char *)malloc(MAX_CADENA);
@@ -246,9 +251,11 @@ int main(int argc, char const *argv[])
 
 	}catch (ExcepcionCGI& e){
 		imprimirErrorJson(e.mostrar(),e.codigo_error());
+		umask(PERMISOS_DEFAULT);
 		result = ERROR;
 	}catch (std::exception& e){
 		imprimirErrorJson("Error interno del servidor",COD_ERRORES_GENERALES);
+		umask(PERMISOS_DEFAULT);
 		result = ERROR;
 	}
 	return result;

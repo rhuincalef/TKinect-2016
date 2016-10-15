@@ -16,7 +16,7 @@
 (function(nameSpaceCgi,$,undefined){
 
 
-	function debug(msg){
+	debug = function (msg){
 		console.log(msg);
 	}
 
@@ -25,9 +25,11 @@
 					url:"cgi-bin/main/build/conversorCgi.cgi?idFalla=" + idFalla,
 					success:function(data,status,jqhxr){
 								debug('Peticion a cgi-bin correcta!');
-								debug(data.error);
+								debug(jqhxr.responseText);
+
 								// var json_estado = JSON.parse(data.responseText);
-								var json_estado = data;
+								// var json_estado = data;
+								var json_estado = JSON.parse(jqhxr.responseText);
 								if (json_estado.estado == 400){
 									debug("Ha ocurrido un error en el servidor -->");
 									debug(json_estado.error);
@@ -47,7 +49,7 @@
 									debug('Los datos capturados desde el server fueron -->');
 									debug(json_estado.datos);
 									debug('------------------------------------------------');
-									generar_info_csv(nombreCarpetaNube,json_estado);
+									generar_info_csv(idFalla,json_estado);
 								}
 								
 					},
@@ -63,39 +65,39 @@
 	}
 
 	// Se genera el csv requerido para mostrar como descripcion en el thumbnail.
-	function generar_info_csv(idFalla,json_estado){
+	generar_info_csv = function(idFalla,json_estado){
+		debug("json_estado.raiz_tmp = ");
+		debug(json_estado.raiz_tmp);
 		$.ajax({
-			url:"../../helpers/generar_csv.php?idFalla="+idFalla+"&raizTmp="+json_estado.raiz_tmp,
+			url:"app/helpers/generar_csv_php/generar_csv.php?idFalla="+idFalla+"&raizTmp="+json_estado.raiz_tmp,
 			success:function(data,status,jqhxr){
-				if (json_estado.estado != 200) {
+				var json_info_csv = JSON.parse(jqhxr.responseText);
+				if (json_info_csv.estado != 200) {
 					debug("Error interno del servidor ");
-					debug(json_estado.error);
-					mostrar_error_thumnail(json_estado.error);
+					debug(json_info_csv.error);
+					nameSpaceCgi.mostrar_error_thumnail(json_info_csv.error);
 					return;
 				}
 				debug("Obtenido csv de informacion...");
 				var json_final = json_estado;
-				var json_csv = JSON.parse(data);
-				json_final["path_csv"] = json_csv.path_csv;
+				json_final["path_csv"] = json_info_csv.path_csv;
+
 				// Peticiones del json.
-				
 				csv_nube = json_final["raiz_tmp"]+json_final["csv_nube"];
 				imagen = json_final["raiz_tmp"]+json_final["imagen"];
 				path_csv = json_final["path_csv"];
-				$("#imagenThumb").attr("src",imagen);
+
+				// debug("Imagen a appendear -->");
+				// debug(imagen);
+				// debug("");
+				// $("#imagenThumb").attr("src",imagen);
+				
 				// Se parsea el csv con la descripcion
 				Papa.parse(path_csv, {
 					download: true,
 					complete: function(results, file) {
-						// {
-						// 	data:   // array of parsed data
-						// 	errors: // array of errors
-						// 	meta:   // object with extra info
-						// }
-						console.log("Resultados parseados del csv");
-						console.log(result[0]);
-						console.log(result[1]);
-						$("#descripcion").append(result[0],result[1]);
+						mostrar_texto_thumnail(idFalla,results.data[0][0],
+							results.data[1][0]);
 					},
 					error: function(err, file, inputElem, reason){
 						nameSpaceCgi.mostrar_error_thumnail("Error en PapaParse: "+err);
@@ -110,6 +112,21 @@
 		});
 	}
 
+	// Configura el thumbnail para el caso de exito.
+	mostrar_texto_thumnail = function(idFalla,titulo,descripcion){
+		// $("#imagenThumb").attr("src","");
+		$("#descripcion").attr("class", "texto-exito");
+		$("#descripcion").append("<h2>"+titulo+"</h2>");
+		$("#descripcion").append("<h4>"+descripcion+"</h4>");
+		$("#botonVisualizador").attr("style","display:inline;");
+		$("#botonVisualizador").attr("href",
+			"app/views/viewer.php?c=" + idFalla);
+		$("#contBoton").attr("class","margen-boton");
+
+
+	}
+
+
 
 	// Genera un alert para el thumnail
 	nameSpaceCgi.mostrar_error_thumnail = function (msgError){
@@ -121,6 +138,8 @@
 					type: 'danger'
 		});
 		$("#imagenThumb").attr("src","app/views/res/errorInterno.png");
+		$("#descripcion").attr("class","texto-error");
+		$("#descripcion").append("Archivo no encontrado");
 	}
 
 }( window.nameSpaceCgi = window.nameSpaceCgi || {},jQuery));
